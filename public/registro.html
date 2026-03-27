@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Únete a Dysrupcion</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="form-page">
+    <section class="form-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h1 class="display-md">Únete a Dysrupcion</h1>
+          <p class="body-lg text-muted">Completa el formulario para solicitar tu ingreso a la comunidad.</p>
+        </div>
+
+        <form id="register-form" novalidate>
+          <div class="input-group">
+            <label class="input-label" for="nombre">Nombre completo <span class="required">*</span></label>
+            <input class="input" type="text" id="nombre" name="nombre" required autocomplete="name">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="email">Email <span class="required">*</span></label>
+            <input class="input" type="email" id="email" name="email" required autocomplete="email">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="origen">Origen</label>
+            <select class="input" id="origen" name="origen">
+              <option value="">Selecciona tu origen</option>
+              <option value="local">Local (Yucatan)</option>
+              <option value="nacional">Nacional (otro estado)</option>
+              <option value="extranjero">Extranjero</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="expertise">Expertise / Rol</label>
+            <input class="input" type="text" id="expertise" name="expertise" placeholder="ej. Frontend Developer, Data Scientist...">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="track">Track de interes</label>
+            <select class="input" id="track" name="track">
+              <option value="">Selecciona un track</option>
+              <option value="eventos">Eventos y Encuentros</option>
+              <option value="educacion">Educación y Mentoría</option>
+              <option value="emprendimiento">Emprendimiento y Colaboración</option>
+              <option value="impacto">Impacto Local</option>
+              <option value="puente">Puente con Otras Comunidades</option>
+            </select>
+          </div>
+
+          <div class="input-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="contrato" name="contrato" required>
+              <span>Acepto el <a href="/playbook" class="link-pink">contrato social</a></span>
+            </label>
+          </div>
+
+          <div class="input-group checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="directorio" name="directorio">
+              <span>Acepto aparecer en el directorio público</span>
+            </label>
+          </div>
+
+          <div id="form-message" class="form-message" hidden></div>
+
+          <button type="submit" class="btn-primary btn-full">Enviar Solicitud</button>
+
+          <p class="form-footer text-muted body-sm">Al registrarte aceptas el contrato social de Dysrupcion.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+  <script src="/js/forms.js"></script>
+  <script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const message = document.getElementById('form-message');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+      data.contrato = form.contrato.checked;
+      data.directorio = form.directorio.checked;
+
+      try {
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          message.textContent = 'Solicitud enviada con exito. Te contactaremos pronto.';
+          message.className = 'form-message success';
+          message.hidden = false;
+          form.reset();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          message.textContent = err.message || 'Error al enviar la solicitud. Intenta de nuevo.';
+          message.className = 'form-message error';
+          message.hidden = false;
+        }
+      } catch {
+        message.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+        message.className = 'form-message error';
+        message.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

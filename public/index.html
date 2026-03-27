@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dysrupcion — Innovación con Identidad</title>
+  <meta name="description" content="Comunidad tech de Yucatán. 400 personas construyendo innovación con identidad local.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <style>
+    /* =============================================
+       LANDING PAGE — Poster-style hero
+       ============================================= */
+
+    /* Hero: split layout on desktop, stacked on mobile */
+    .hero {
+      min-height: 90vh;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      position: relative;
+      overflow: hidden;
+      gap: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        grid-template-columns: 1.2fr 0.8fr;
+        min-height: 85vh;
+        padding: 64px 24px;
+        gap: 64px;
+      }
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: clamp(120px, 20vw, 280px);
+      font-weight: 700;
+      opacity: 0.025;
+      top: 50%;
+      right: -5%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.0;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .hero-title .accent { color: var(--cyan); }
+
+    .hero-description {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      filter: drop-shadow(0 0 60px rgba(46, 236, 199, 0.08));
+    }
+
+    /* Only show the correct logo for the current theme */
+    .hero-visual .hero-logo-light { display: none; }
+    .hero-visual .hero-logo-dark { display: block; }
+    [data-theme="light"] .hero-visual .hero-logo-light { display: block; }
+    [data-theme="light"] .hero-visual .hero-logo-dark { display: none; }
+
+    @media (max-width: 767px) {
+      .hero-visual {
+        order: -1;
+      }
+      .hero-visual img {
+        max-width: 180px;
+      }
+      .hero {
+        text-align: center;
+      }
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+    }
+
+    /* Manifesto section */
+    .manifesto {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .manifesto-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      margin-bottom: 24px;
+    }
+
+    .manifesto p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .manifesto p strong {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: border-color 200ms ease-out;
+    }
+
+    .stat-card:hover {
+      border-color: var(--cyan);
+    }
+
+    .stat-value {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .tracks {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .tracks-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .tracks-header h2 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .tracks-header p {
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .track-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 24px;
+      transition: border-color 200ms ease-out, transform 200ms ease-out;
+    }
+
+    .track-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .track-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .track-card h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .track-card p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .track-tag {
+      display: inline-block;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-top: 16px;
+    }
+
+    .track-tag--cyan {
+      background: rgba(46, 236, 199, 0.15);
+      color: var(--cyan);
+    }
+
+    .track-tag--pink {
+      background: rgba(255, 22, 84, 0.15);
+      color: var(--pink);
+    }
+
+    .track-tag--yellow {
+      background: rgba(255, 209, 0, 0.15);
+      color: var(--yellow);
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 96px 24px;
+      position: relative;
+    }
+
+    .cta-section h2 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .separator {
+      width: 64px;
+      height: 2px;
+      margin: 0 auto 64px;
+      background: linear-gradient(90deg, var(--pink), var(--cyan), var(--yellow));
+      border: none;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 32px;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 100ms ease-out, opacity 150ms ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 150ms ease-out;
+    }
+
+    .btn-secondary:hover {
+      background: var(--cyan);
+      color: var(--bg);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 60vh;
+        padding: 48px 16px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 48px 16px;
+      }
+
+      .tracks-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-label="Introducción">
+      <div class="hero-bg-text" aria-hidden="true">DYSRUPCION</div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Yucatán Tech Community</p>
+        <h1 class="hero-title">Innovación<br>con <span class="accent">Identidad</span></h1>
+        <p class="hero-description">
+          Somos casi 400 personas construyendo tecnología que beneficia a Yucatán.
+          No copiamos Silicon Valley. Construimos desde lo local.
+        </p>
+        <div class="hero-actions">
+          <a href="/registro" class="btn-primary">Únete a Dysrupción</a>
+          <a href="#manifiesto" class="btn-secondary">Lee el Manifiesto</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img src="/img/logo-tricolor.png" alt="Dysrupción" class="hero-logo-dark">
+        <img src="/img/logo-color.png" alt="Dysrupción" class="hero-logo-light">
+      </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="manifesto" id="manifiesto" aria-label="Manifiesto">
+      <hr class="separator">
+      <p class="manifesto-label">Manifiesto</p>
+
+      <p>
+        Dysrupción nació en 2022 con 4 personas en una mesa preguntándose algo simple:
+        <strong>¿por qué la tecnología en Yucatán crece, pero los yucatecos no crecen con ella?</strong>
+        Empresas abren oficinas, startups aterrizan, el nearshoring promete. Pero los beneficios se quedan arriba.
+        Las oportunidades se llenan con talento importado. El ecosistema local se queda mirando.
+      </p>
+      <p>
+        Hoy somos casi 400. No somos una comunidad de networking ni un club de likes.
+        Somos un espacio donde la innovación se construye <strong>desde la identidad local</strong>,
+        no a pesar de ella. Donde un dev de Tizimín tiene las mismas oportunidades que uno de CDMX.
+        Donde una iniciativa se mide por cuántos locales beneficia, no por cuántos followers tiene.
+        Donde el conflicto se resuelve con proceso, no con poder.
+      </p>
+      <p>
+        Nuestra tesis es clara: la mejor innovación del sureste no va a venir de copiar Silicon Valley.
+        Va a venir de gente que entiende este territorio, su cultura, sus problemas reales, y que
+        tiene las herramientas técnicas para resolverlos. <strong>Innovación con identidad.</strong>
+        Eso es Dysrupción.
+      </p>
+
+    </section>
+
+    <!-- Stats -->
+    <section class="stats" aria-label="Estadísticas de la comunidad">
+      <div class="stat-card">
+        <div class="stat-value">387</div>
+        <div class="stat-label">Miembros</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Iniciativas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Tracks Activos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Eventos Este Mes</div>
+      </div>
+    </section>
+
+    <!-- Tracks -->
+    <section class="tracks" aria-label="Tracks de iniciativa">
+      <div class="tracks-header">
+        <h2>Tracks de Iniciativa</h2>
+        <p>5 líneas de acción para construir ecosistema</p>
+      </div>
+      <div class="tracks-grid">
+        <article class="track-card">
+          <div class="track-icon" aria-hidden="true">&#9733;</div>
+          <h3>Eventos</h3>
+          <p>Meetups, hackatones, conferencias y espacios de encuentro. Donde la comunidad se ve la cara y comparte conocimiento en vivo.</p>
+          <span class="track-tag track-tag--cyan">eventos</span>
+        </article>
+        <article class="track-card">
+          <div class="track-icon" aria-hidden="true">&#9670;</div>
+          <h3>Educación</h3>
+          <p>Talleres, mentoría y recursos para cerrar la brecha de skills. Enfoque en talento local que no tiene acceso a bootcamps caros.</p>
+          <span class="track-tag track-tag--cyan">educacion</span>
+        </article>
+        <article class="track-card">
+          <div class="track-icon" aria-hidden="true">&#9650;</div>
+          <h3>Emprendimiento</h3>
+          <p>Apoyo a startups y proyectos tech nacidos en Yucatán. Conexiones, feedback, demo days y acceso a capital.</p>
+          <span class="track-tag track-tag--pink">emprendimiento</span>
+        </article>
+        <article class="track-card">
+          <div class="track-icon" aria-hidden="true">&#9679;</div>
+          <h3>Impacto Local</h3>
+          <p>Tecnología al servicio de problemas reales de Yucatán. Civic tech, datos abiertos, herramientas para comunidades y negocios locales.</p>
+          <span class="track-tag track-tag--yellow">impacto local</span>
+        </article>
+        <article class="track-card">
+          <div class="track-icon" aria-hidden="true">&#9644;</div>
+          <h3>Puente</h3>
+          <p>Conexión entre el ecosistema local e internacional. Partnerships, intercambios y oportunidades que fluyen en ambas direcciones.</p>
+          <span class="track-tag track-tag--cyan">puente</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" aria-label="Unirse a la comunidad">
+      <hr class="separator">
+      <h2>Únete a Dysrupcion</h2>
+      <p>Somos una comunidad por invitación. Si alguien de la comunidad te refirió, empieza tu proceso aquí.</p>
+      <a href="/registro" class="btn-primary">Comenzar Registro</a>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/layout.js"></script>
+</body>
+</html>

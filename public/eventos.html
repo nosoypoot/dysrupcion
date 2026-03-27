@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos — Dysrupcion</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="page">
+    <!-- Próximos Eventos Section -->
+    <section class="events-section">
+      <div class="section-header">
+        <h1 class="display-md">Eventos</h1>
+        <p class="body-lg text-muted">Calendario unificado de la comunidad. Agrega eventos de cualquier plataforma.</p>
+      </div>
+
+      <div class="events-list-header">
+        <h2 class="display-sm">Próximos Eventos</h2>
+      </div>
+      <div id="events-list" class="events-list">
+        <!-- JS will populate event cards here -->
+        <p class="text-muted body-sm events-loading">Cargando eventos...</p>
+      </div>
+    </section>
+
+    <!-- Agregar Evento Section -->
+    <section class="form-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h2 class="display-sm">Agregar Evento</h2>
+        </div>
+
+        <form id="event-form" novalidate>
+          <!-- URL + scrape -->
+          <div class="input-group">
+            <label class="input-label" for="event-url">URL del evento</label>
+            <div class="input-with-action">
+              <input class="input" type="url" id="event-url" name="url" required placeholder="https://lu.ma/... o meetup.com/...">
+              <button type="button" id="scrape-btn" class="btn-secondary btn-sm">Extraer datos</button>
+            </div>
+          </div>
+
+          <!-- Preview area (hidden by default) -->
+          <div id="scrape-preview" class="scrape-preview" hidden>
+            <div class="scrape-preview-header">
+              <span class="label-mono">Vista previa</span>
+            </div>
+            <div class="scrape-preview-body">
+              <p class="scrape-title" id="preview-title"></p>
+              <p class="scrape-meta text-muted body-sm">
+                <span id="preview-date"></span>
+                <span id="preview-location"></span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Manual fields (shown if scrape fails or as fallback) -->
+          <div id="manual-fields">
+            <div class="input-group">
+              <label class="input-label" for="event-título">Título <span class="required">*</span></label>
+              <input class="input" type="text" id="event-título" name="título" required>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="event-fecha">Fecha <span class="required">*</span></label>
+              <input class="input" type="datetime-local" id="event-fecha" name="fecha" required>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="event-lugar">Lugar</label>
+              <input class="input" type="text" id="event-lugar" name="lugar">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="event-descripción">Descripcion</label>
+              <textarea class="input" id="event-descripción" name="descripción" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="event-track">Track</label>
+            <select class="input" id="event-track" name="track">
+              <option value="">Selecciona un track</option>
+              <option value="eventos">Eventos y Encuentros</option>
+              <option value="educacion">Educación y Mentoría</option>
+              <option value="emprendimiento">Emprendimiento y Colaboración</option>
+              <option value="impacto">Impacto Local</option>
+              <option value="puente">Puente con Otras Comunidades</option>
+            </select>
+          </div>
+
+          <div id="form-message" class="form-message" hidden></div>
+
+          <button type="submit" class="btn-primary btn-full">Publicar Evento</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+  <script src="/js/forms.js"></script>
+  <script src="/js/events.js"></script>
+  <script>
+    // Scrape button logic
+    document.getElementById('scrape-btn').addEventListener('click', async () => {
+      const url = document.getElementById('event-url').value;
+      if (!url) return;
+
+      const btn = document.getElementById('scrape-btn');
+      const preview = document.getElementById('scrape-preview');
+      const manualFields = document.getElementById('manual-fields');
+
+      btn.textContent = 'Extrayendo...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/events/scrape', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('preview-title').textContent = data.title || '';
+          document.getElementById('preview-date').textContent = data.date || '';
+          document.getElementById('preview-location').textContent = data.location ? (' — ' + data.location) : '';
+          preview.hidden = false;
+
+          // Fill manual fields with scraped data as fallback
+          document.getElementById('event-título').value = data.title || '';
+          document.getElementById('event-fecha').value = data.datetime || '';
+          document.getElementById('event-lugar').value = data.location || '';
+          document.getElementById('event-descripción').value = data.description || '';
+
+          // Hide manual fields if scrape succeeded
+          manualFields.hidden = true;
+        } else {
+          // Show manual fields on scrape failure
+          preview.hidden = true;
+          manualFields.hidden = false;
+        }
+      } catch {
+        preview.hidden = true;
+        manualFields.hidden = false;
+      } finally {
+        btn.textContent = 'Extraer datos';
+        btn.disabled = false;
+      }
+    });
+
+    // Event form submission
+    document.getElementById('event-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const message = document.getElementById('form-message');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const res = await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          message.textContent = 'Evento publicado con exito.';
+          message.className = 'form-message success';
+          message.hidden = false;
+          form.reset();
+          document.getElementById('scrape-preview').hidden = true;
+          document.getElementById('manual-fields').hidden = false;
+          // Refresh events list
+          if (typeof loadEvents === 'function') loadEvents();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          message.textContent = err.message || 'Error al publicar el evento. Intenta de nuevo.';
+          message.className = 'form-message error';
+          message.hidden = false;
+        }
+      } catch {
+        message.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+        message.className = 'form-message error';
+        message.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

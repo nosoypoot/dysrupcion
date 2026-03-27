@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocolo Dysrupcion</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="page">
+    <section class="page-header">
+      <h1 class="display-lg">Protocolo Dysrupcion</h1>
+      <p class="subtitle body-lg text-muted">Despliega tu propia comunidad tech en 30 minutos</p>
+    </section>
+
+    <section class="protocol-steps">
+      <div class="protocol-step card">
+        <div class="step-number">01</div>
+        <h2 class="display-sm">Fork this repo</h2>
+        <p class="body">Haz un fork del repositorio en tu cuenta de GitHub. Esto crea tu propia copia del protocolo.</p>
+        <div class="code-block">
+          <code>gh repo fork dysrupcion/dysrupcion --clone</code>
+        </div>
+      </div>
+
+      <div class="protocol-step card">
+        <div class="step-number">02</div>
+        <h2 class="display-sm">Clone and install</h2>
+        <p class="body">Clona tu fork e instala las dependencias del proyecto.</p>
+        <div class="code-block">
+          <code>cd dysrupcion
+npm install</code>
+        </div>
+      </div>
+
+      <div class="protocol-step card">
+        <div class="step-number">03</div>
+        <h2 class="display-sm">Edit config</h2>
+        <p class="body">Personaliza la configuracion de tu comunidad editando el archivo de configuracion principal.</p>
+        <div class="code-block">
+          <code># wrangler.toml o config.ts
+COMMUNITY_NAME = "Tu Comunidad"
+MISSION = "Tu mision aquí"
+COLORS = { pink: "#FF1654", cyan: "#2EECC7", yellow: "#FFD100" }
+TRACKS = ["Producto", "Ingenieria", "Diseno", "Datos", "DevOps", "Comunidad"]</code>
+        </div>
+      </div>
+
+      <div class="protocol-step card">
+        <div class="step-number">04</div>
+        <h2 class="display-sm">Set up Supabase</h2>
+        <p class="body">Crea un proyecto en Supabase y conecta tu base de datos. Sigue la guia completa para configurar las tablas y permisos.</p>
+        <div class="code-block">
+          <code># Copia las variables de entorno
+cp .env.example .env
+
+# Agrega tus credenciales de Supabase
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_ANON_KEY=tu-anon-key</code>
+        </div>
+        <p class="body-sm text-muted">
+          <a href="https://supabase.com/docs/guides/getting-started" class="link-cyan" target="_blank" rel="noopener">Guia completa de Supabase &rarr;</a>
+        </p>
+      </div>
+
+      <div class="protocol-step card">
+        <div class="step-number">05</div>
+        <h2 class="display-sm">Deploy to Cloudflare</h2>
+        <p class="body">Despliega tu sitio a Cloudflare Workers. Tu comunidad estara en linea en segundos.</p>
+        <div class="code-block">
+          <code># Login a Cloudflare
+npx wrangler login
+
+# Deploy
+npx wrangler deploy</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="protocol-footer">
+      <div class="card card-bordered">
+        <p class="body text-muted">Este protocolo es open source bajo licencia <strong class="text-primary">CC BY-SA</strong>. Puedes usarlo, modificarlo y redistribuirlo libremente siempre que compartas bajo la misma licencia y des credito.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+</body>
+</html>

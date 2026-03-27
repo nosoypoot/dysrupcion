@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proponer una Iniciativa — Dysrupcion</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="form-page">
+    <section class="form-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h1 class="display-md">Proponer una Iniciativa</h1>
+          <p class="body-lg text-muted">Toda iniciativa debe declarar un beneficio para Yucatán.</p>
+        </div>
+
+        <form id="initiative-form" novalidate>
+          <div class="input-group">
+            <label class="input-label" for="título">Título de la iniciativa <span class="required">*</span></label>
+            <input class="input" type="text" id="título" name="título" required>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="problema">Problema que resuelve <span class="required">*</span></label>
+            <textarea class="input" id="problema" name="problema" rows="4" required></textarea>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="beneficiario">Beneficiario en Yucatán <span class="required">*</span></label>
+            <input class="input" type="text" id="beneficiario" name="beneficiario" required placeholder="ej. Estudiantes de preparatoria en Merida">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="colead">Co-lead local <span class="required">*</span></label>
+            <input class="input" type="text" id="colead" name="colead" required placeholder="Nombre del co-líder yucateco">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="recursos-necesita">Recursos que necesita</label>
+            <textarea class="input" id="recursos-necesita" name="recursos_necesita" rows="3"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="recursos-ofrece">Recursos que ofrece</label>
+            <textarea class="input" id="recursos-ofrece" name="recursos_ofrece" rows="3"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="track">Track</label>
+            <select class="input" id="track" name="track">
+              <option value="">Selecciona un track</option>
+              <option value="eventos">Eventos y Encuentros</option>
+              <option value="educacion">Educación y Mentoría</option>
+              <option value="emprendimiento">Emprendimiento y Colaboración</option>
+              <option value="impacto">Impacto Local</option>
+              <option value="puente">Puente con Otras Comunidades</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="conexión-tracks">Como se conecta con otros tracks</label>
+            <textarea class="input" id="conexión-tracks" name="conexión_tracks" rows="3"></textarea>
+          </div>
+
+          <div id="form-message" class="form-message" hidden></div>
+
+          <button type="submit" class="btn-primary btn-full">Enviar Propuesta</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+  <script src="/js/forms.js"></script>
+  <script>
+    document.getElementById('initiative-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const message = document.getElementById('form-message');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const res = await fetch('/api/initiatives', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          message.textContent = 'Propuesta enviada con exito. Sera revisada por el equipo.';
+          message.className = 'form-message success';
+          message.hidden = false;
+          form.reset();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          message.textContent = err.message || 'Error al enviar la propuesta. Intenta de nuevo.';
+          message.className = 'form-message error';
+          message.hidden = false;
+        }
+      } catch {
+        message.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+        message.className = 'form-message error';
+        message.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playbook Operativo — Dysrupcion</title>
+  <meta name="description" content="Reglas, roles y procesos de gobernanza de la comunidad Dysrupcion.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <style>
+    /* Page-specific styles for the playbook */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-cta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 24px;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 100ms ease-out, opacity 150ms ease-out;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 150ms ease-out, color 150ms ease-out;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--text-muted);
+      color: var(--text-primary);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .nav-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .nav-menu-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Page layout */
+    .page-header {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 64px 24px 32px;
+    }
+
+    .page-label {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .page-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .separator {
+      width: 64px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--pink), var(--cyan), var(--yellow));
+      border: none;
+      margin: 0;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .section h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      margin-top: 32px;
+    }
+
+    .section p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .section p strong {
+      font-weight: 600;
+      color: var(--cyan);
+    }
+
+    /* Rule cards */
+    .rule {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: border-color 200ms ease-out;
+    }
+
+    .rule:hover {
+      border-color: var(--cyan);
+    }
+
+    .rule-number {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--pink);
+      margin-bottom: 4px;
+    }
+
+    .rule-title {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .rule-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .rule-example {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border-left: 3px solid var(--cyan);
+      background: rgba(46, 236, 199, 0.06);
+      color: var(--text-muted);
+    }
+
+    .rule-example .ok {
+      color: var(--cyan);
+    }
+
+    .rule-example .no {
+      color: var(--pink);
+    }
+
+    /* Tier cards */
+    .tier {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .tier-label {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .tier-label--leve {
+      background: rgba(255, 209, 0, 0.15);
+      color: var(--yellow);
+    }
+
+    .tier-label--grave {
+      background: rgba(255, 22, 84, 0.15);
+      color: var(--pink);
+    }
+
+    .tier h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 12px;
+    }
+
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: step;
+    }
+
+    .steps li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      padding: 8px 0 8px 40px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .steps li:last-child {
+      border-bottom: none;
+    }
+
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cyan);
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+    }
+
+    /* Role cards */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .role-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 200ms ease-out;
+    }
+
+    .role-card:hover {
+      border-color: var(--cyan);
+    }
+
+    .role-card h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+
+    .role-card p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 12px;
+    }
+
+    .role-tag {
+      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(46, 236, 199, 0.15);
+      color: var(--cyan);
+    }
+
+    /* Track list */
+    .track-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .track-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 200ms ease-out;
+    }
+
+    .track-item:hover {
+      border-color: var(--cyan);
+    }
+
+    .track-item-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: var(--surface-elevated);
+    }
+
+    .track-item-content h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 4px;
+    }
+
+    .track-item-content p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Admission flow */
+    .admission-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .admission-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 0;
+    }
+
+    .admission-step-marker {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cyan);
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .admission-step-content h3 {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 4px;
+    }
+
+    .admission-step-content p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Alert */
+    .alert {
+      border-left: 3px solid var(--cyan);
+      background: rgba(46, 236, 199, 0.06);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+
+    .alert p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--cyan);
+      margin: 0;
+    }
+
+    .alert--warning {
+      border-left-color: var(--yellow);
+      background: rgba(255, 209, 0, 0.06);
+    }
+
+    .alert--warning p {
+      color: var(--yellow);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      font-family: 'Clash Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .footer-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 150ms ease-out;
+    }
+
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        margin: 8px 16px;
+        gap: 16px;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-menu-btn {
+        display: flex;
+      }
+
+      .page-header {
+        padding: 48px 16px 24px;
+      }
+
+      .content {
+        padding: 0 16px 48px;
+      }
+
+      .role-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .track-item {
+        flex-direction: column;
+      }
+
+      .admission-step {
+        gap: 12px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="page">
+    <!-- Page Header -->
+    <section class="page-header">
+      <p class="page-label">Gobernanza</p>
+      <h1 class="page-title">Playbook Operativo</h1>
+      <p class="page-subtitle">
+        Las reglas, roles y procesos que hacen funcionar a Dysrupcion.
+        Este documento es vivo &mdash; evoluciona con la comunidad.
+      </p>
+      <hr class="separator" style="margin-top: 32px;">
+    </section>
+
+    <div class="content">
+
+      <!-- Contrato Social -->
+      <section class="section" id="contrato-social">
+        <p class="section-label">Fundamento</p>
+        <h2>Contrato Social</h2>
+        <p>
+          Cada miembro de Dysrupcion acepta un contrato social al unirse. No es un documento legal &mdash;
+          es un acuerdo de convivencia basado en tres pilares:
+        </p>
+        <p>
+          <strong>1. El Manifiesto</strong> &mdash; nuestra tesis de que la innovación con identidad local
+          es más valiosa que la innovación importada. Si no compartes esta premisa basíca, hay otras
+          comunidades que te serviran mejor.
+        </p>
+        <p>
+          <strong>2. Las 5 Reglas de Convivencia</strong> &mdash; los acuerdos minimos para que 400 personas
+          puedan colaborar sin que el espacio se deteriore.
+        </p>
+        <p>
+          <strong>3. El Proceso de Conflictos</strong> &mdash; como resolvemos desacuerdos sin recurrir al
+          poder arbitrario. Nadie es baneado sin proceso. Nadie es silenciado sin causa.
+        </p>
+
+        <div class="alert">
+          <p>
+            El contrato social no es estatico. Cualquier miembro puede proponer cambios
+            a traves del proceso de RFC (Request for Comments) en el canal #gobernanza.
+          </p>
+        </div>
+      </section>
+
+      <!-- 5 Reglas -->
+      <section class="section" id="reglas">
+        <p class="section-label">Convivencia</p>
+        <h2>5 Reglas de Convivencia</h2>
+        <p>
+          Estas reglas no son aspiracionales &mdash; son operativas. Se aplican, se miden, y tienen consecuencias.
+        </p>
+
+        <div class="rule">
+          <div class="rule-number">Regla 01</div>
+          <div class="rule-title">Respeto a la persona</div>
+          <div class="rule-desc">
+            Atacar ideas es sano. Atacar personas no. Puedes decir "esa arquitectura tiene problemas serios"
+            pero no "eres un mal desarrollador". La diferencia importa. La critica tecnica nos hace mejores;
+            los ataques personales destruyen confianza.
+          </div>
+          <div class="rule-example">
+            <span class="ok">OK:</span> "Ese enfoque no escala porque X, yo propongo Y"<br>
+            <span class="no">NO:</span> "Eso es una tonteria, quien te enseno a programar"
+          </div>
+        </div>
+
+        <div class="rule">
+          <div class="rule-number">Regla 02</div>
+          <div class="rule-title">No spam ni comerciales no solicitados</div>
+          <div class="rule-desc">
+            Compartir tu proyecto, tu startup, tu evento esta bien &mdash; si lo haces con contexto y en el
+            canal adecuado. Copiar-pegar tu pitch en 5 canales no esta bien. La comunidad es un espacio de
+            intercambio, no un billboard.
+          </div>
+          <div class="rule-example">
+            <span class="ok">OK:</span> "Estamos construyendo X para resolver Y en Merida, busco feedback"<br>
+            <span class="no">NO:</span> "APROVECHA 50% DE DESCUENTO EN MI CURSO DE PROGRAMACION"
+          </div>
+        </div>
+
+        <div class="rule">
+          <div class="rule-number">Regla 03</div>
+          <div class="rule-title">Conflictos por proceso, no por impulso</div>
+          <div class="rule-desc">
+            Nadie es baneado, silenciado o sancionado sin pasar por el proceso definido abajo.
+            Los guardianes no son policias con poder discrecional &mdash; son facilitadores del proceso.
+            Esto protege a todos, incluyendo a los guardianes.
+          </div>
+          <div class="rule-example">
+            <span class="ok">OK:</span> Guardian abre ticket de conflicto, notifica, da 48h para responder<br>
+            <span class="no">NO:</span> Admin banea a alguien porque "se paso de la raya" sin proceso
+          </div>
+        </div>
+
+        <div class="rule">
+          <div class="rule-number">Regla 04</div>
+          <div class="rule-title">Toda iniciativa declara beneficio local</div>
+          <div class="rule-desc">
+            Si quieres lanzar una iniciativa bajo el paraguas de Dysrupcion, tiene que declarar
+            explicitamente como beneficia al ecosistema local de Yucatán. No tiene que ser exclusivamente
+            local, pero el componente local tiene que ser real y medible, no decorativo.
+          </div>
+          <div class="rule-example">
+            <span class="ok">OK:</span> "Hackaton de IA con 3 de 5 retos enfocados en problemas locales"<br>
+            <span class="no">NO:</span> "Hackaton global que 'también invita a gente de Yucatan'"
+          </div>
+        </div>
+
+        <div class="rule">
+          <div class="rule-number">Regla 05</div>
+          <div class="rule-title">Participación activa</div>
+          <div class="rule-desc">
+            La comunidad funciona cuando la gente participa. Si un miembro pasa 90+ dias sin ninguna
+            actividad (mensajes, eventos, contribuciones), su status cambia a "alumni". No es castigo
+            &mdash; es higiene. Los alumni pueden reactivarse en cualquier momento, sin proceso nuevo.
+          </div>
+          <div class="rule-example">
+            <span class="ok">OK:</span> Asistir a un evento, comentar en un hilo, proponer una idea<br>
+            <span class="no">NO:</span> Unirte y nunca más aparecer (te queremos activo, no como número)
+          </div>
+        </div>
+      </section>
+
+      <!-- Proceso de Conflictos -->
+      <section class="section" id="conflictos">
+        <p class="section-label">Resolucion</p>
+        <h2>Proceso de Conflictos</h2>
+        <p>
+          Dos niveles, cada uno con pasos claros. El objetivo siempre es resolver, no castigar.
+          Si el conflicto se puede resolver con una conversacion, no necesita proceso formal.
+        </p>
+
+        <div class="tier">
+          <span class="tier-label tier-label--leve">Tier 1 — Leve</span>
+          <h3>Violaciones menores o primera vez</h3>
+          <p style="font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+            Spam, comentario fuera de tono, regla rota sin mala intencion evidente.
+          </p>
+          <ol class="steps">
+            <li>Guardian identifica la situacion y abre un registro interno</li>
+            <li>Se contacta al miembro en privado, se explica la regla y se pide ajuste</li>
+            <li>El miembro tiene 48 horas para responder y ajustar</li>
+            <li>Si se resuelve, el registro se cierra. Si no, escala a Tier 2</li>
+          </ol>
+        </div>
+
+        <div class="tier">
+          <span class="tier-label tier-label--grave">Tier 2 — Grave</span>
+          <h3>Reincidencia o violaciones serias</h3>
+          <p style="font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+            Ataques personales repetidos, discriminacion, conducta que dana el espacio para otros.
+          </p>
+          <ol class="steps">
+            <li>Se convoca un panel de 3 guardianes (o 2 guardianes + 1 coordinador de track)</li>
+            <li>Se notifica al miembro por escrito con evidencia especifica</li>
+            <li>El miembro tiene 72 horas para presentar su perspectiva</li>
+            <li>El panel delibera y decide: advertencia formal, suspension temporal, o remocion</li>
+            <li>La decision se comunica al miembro. Si es remocion, se notifica a la comunidad sin detalles personales</li>
+            <li>El miembro puede apelar una vez. La apelacion la revisa un panel diferente</li>
+          </ol>
+        </div>
+
+        <div class="alert alert--warning">
+          <p>
+            Excepcion de emergencia: en casos de amenazas, doxxing, o conducta que ponga en riesgo
+            la seguridad de un miembro, un guardian puede actuar inmediatamente (mute temporal) y
+            abrir el proceso Tier 2 dentro de las siguientes 24 horas.
+          </p>
+        </div>
+      </section>
+
+      <!-- Roles Rotativos -->
+      <section class="section" id="roles">
+        <p class="section-label">Estructura</p>
+        <h2>Roles Rotativos</h2>
+        <p>
+          No hay jerarquias permanentes. Todos los roles rotan para evitar concentracion de poder
+          y para que más personas desarrollen habilidades de líderazgo comunitario.
+        </p>
+
+        <div class="role-grid">
+          <div class="role-card">
+            <h3>Guardianes</h3>
+            <p>
+              Facilitan el cumplimiento del contrato social. No son policias &mdash; son facilitadores
+              del proceso de conflictos. Rotacion cada 3 meses. Minimo 3 guardianes activos.
+            </p>
+            <span class="role-tag">Rotacion: 3 meses</span>
+          </div>
+
+          <div class="role-card">
+            <h3>Coordinadores de Track</h3>
+            <p>
+              Lideran uno de los 5 tracks de iniciativa. Organizan actividades, reportan metricas,
+              y son el punto de contacto para su track. Rotacion cada 6 meses.
+            </p>
+            <span class="role-tag">Rotacion: 6 meses</span>
+          </div>
+
+          <div class="role-card">
+            <h3>Facilitador de Admisión</h3>
+            <p>
+              Gestiona el proceso de entrada de nuevos miembros. Revisa invitaciones,
+              conduce la firma del contrato social, y acompana durante los 30 dias de observación.
+            </p>
+            <span class="role-tag">Rotacion: 3 meses</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Proceso de Admisión -->
+      <section class="section" id="admisión">
+        <p class="section-label">Entrada</p>
+        <h2>Proceso de Admisión</h2>
+        <p>
+          Dysrupcion es por invitacion. No por exclusividad &mdash; por intencion. Queremos personas
+          que entienden y valoran lo que estamos construyendo, no un grupo masívo donde nadie se conoce.
+        </p>
+
+        <div class="admission-flow">
+          <div class="admission-step">
+            <div class="admission-step-marker">1</div>
+            <div class="admission-step-content">
+              <h3>Invitacion</h3>
+              <p>
+                Un miembro activo te invita y envia tu información al facilitador de admisión.
+                La invitacion incluye quien te refirio y por que cree que encajas en la comunidad.
+              </p>
+            </div>
+          </div>
+
+          <div class="admission-step">
+            <div class="admission-step-marker">2</div>
+            <div class="admission-step-content">
+              <h3>Contrato Social</h3>
+              <p>
+                Recibes y lees el contrato social (este playbook). Firmás digitalmente aceptando
+                las 5 reglas y el proceso de conflictos. No es un tramite &mdash; es un acuerdo real.
+              </p>
+            </div>
+          </div>
+
+          <div class="admission-step">
+            <div class="admission-step-marker">3</div>
+            <div class="admission-step-content">
+              <h3>Periodo de Observacion (30 dias)</h3>
+              <p>
+                Accedes a la comunidad con status "nuevo". Puedes participar normalmente.
+                El facilitador te da la bienvenida y te orienta sobre canales y tracks.
+                Despues de 30 dias, tu status cambia a "miembro" automaticamente.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert">
+          <p>
+            Si durante los 30 dias hay alguna violacion seria al contrato social,
+            el caso pasa directo a Tier 2 del proceso de conflictos.
+          </p>
+        </div>
+      </section>
+
+      <!-- Tracks de Iniciativa -->
+      <section class="section" id="tracks">
+        <p class="section-label">Accion</p>
+        <h2>Tracks de Iniciativa</h2>
+        <p>
+          Todo lo que hacemos en Dysrupcion se organiza en 5 tracks. Cada track tiene un coordinador
+          rotativo, metricas propias, y la obligacion de declarar beneficio local.
+        </p>
+
+        <div class="track-list">
+          <div class="track-item">
+            <div class="track-item-icon" aria-hidden="true">&#9733;</div>
+            <div class="track-item-content">
+              <h3>Eventos</h3>
+              <p>
+                Meetups mensuales, hackatones trimestrales, conferencias anuales y encuentros informales.
+                Donde la comunidad se ve la cara, comparte conocimiento, y construye relaciones
+                que no se pueden replicar en un chat. Metrica clave: asístentes locales por evento.
+              </p>
+            </div>
+          </div>
+
+          <div class="track-item">
+            <div class="track-item-icon" aria-hidden="true">&#9670;</div>
+            <div class="track-item-content">
+              <h3>Educación</h3>
+              <p>
+                Talleres practicos, programás de mentoría, y recursos abiertos para cerrar la brecha
+                de skills tecnicas en Yucatán. Enfoque en personas que no tienen acceso a bootcamps
+                caros ni a universidades de primer nivel. Metrica clave: skills adquiridos por participante.
+              </p>
+            </div>
+          </div>
+
+          <div class="track-item">
+            <div class="track-item-icon" aria-hidden="true">&#9650;</div>
+            <div class="track-item-content">
+              <h3>Emprendimiento</h3>
+              <p>
+                Apoyo a startups y proyectos tech que nacen en Yucatán o tienen impacto directo en la region.
+                Conexiónes con mentores, feedback brutal-pero-honesto, demo days, y acceso a redes de capital.
+                Metrica clave: startups activas con componente local.
+              </p>
+            </div>
+          </div>
+
+          <div class="track-item">
+            <div class="track-item-icon" aria-hidden="true">&#9679;</div>
+            <div class="track-item-content">
+              <h3>Impacto Local</h3>
+              <p>
+                Tecnología al servicio de problemas reales de Yucatan: civic tech, datos abiertos,
+                herramientas para negocios locales, proyectos de comunidad. Este track es la razon de
+                ser de Dysrupcion. Metrica clave: personas beneficiadas fuera de la comunidad tech.
+              </p>
+            </div>
+          </div>
+
+          <div class="track-item">
+            <div class="track-item-icon" aria-hidden="true">&#9644;</div>
+            <div class="track-item-content">
+              <h3>Puente</h3>
+              <p>
+                Conexión entre el ecosistema local y el mundo. Partnerships con otras comunidades,
+                intercambios de talento, oportunidades que fluyen en ambas direcciones. No se trata
+                de exportar talento &mdash; se trata de crear puentes donde el valor regresa.
+                Metrica clave: colaboraciónes activas con impacto bidirecciónal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+</body>
+</html>

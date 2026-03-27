@@ -1,0 +1,23 @@
+{
+  "name": "dysrupcion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sitio y protocolo de gobernanza para Dysrupción, la comunidad tech de Yucatán",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["community", "governance", "yucatan", "tech", "cloudflare-workers"],
+  "author": "Dysrupción Community",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nosoypoot/dysrupcion.git"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260317.1",
+    "typescript": "^6.0.2",
+    "wrangler": "^4.78.0"
+  }
+}

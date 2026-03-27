@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Board de Iniciativas — Dysrupcion</title>
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="page">
+    <section class="page-header">
+      <div class="page-header-row">
+        <h1 class="display-md">Board de Iniciativas</h1>
+        <a href="/proponer.html" class="btn btn-primary">Proponer Iniciativa</a>
+      </div>
+    </section>
+
+    <section class="filter-bar">
+      <button class="filter-btn active" data-track="todas">Todas</button>
+      <button class="filter-btn" data-track="producto">Producto</button>
+      <button class="filter-btn" data-track="ingenieria">Ingenieria</button>
+      <button class="filter-btn" data-track="diseno">Diseno</button>
+      <button class="filter-btn" data-track="datos">Datos</button>
+      <button class="filter-btn" data-track="devops">DevOps</button>
+      <button class="filter-btn" data-track="comunidad">Comunidad</button>
+    </section>
+
+    <div id="initiatives-list" class="initiatives-grid">
+      <p class="empty-state">Aun no hay iniciativas en este track.</p>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+  <script src="/js/initiatives.js"></script>
+</body>
+</html>
