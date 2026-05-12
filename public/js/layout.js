@@ -32,7 +32,7 @@
 
         <ul class="site-nav__links">
           <li><a href="/" class="${isActive('/')}">Manifiesto</a></li>
-          <li><a href="/playbook" class="${isActive('/playbook')}">Playbook</a></li>
+          <li><a href="/codigo-de-conducta" class="${isActive('/codigo-de-conducta')}">Código de conducta</a></li>
           <li><a href="/iniciativas" class="${isActive('/iniciativas')}">Iniciativas</a></li>
           <li><a href="/eventos" class="${isActive('/eventos')}">Eventos</a></li>
           <li><a href="/directorio" class="${isActive('/directorio')}">Directorio</a></li>
@@ -68,7 +68,7 @@
         <span class="site-footer__brand">Dysrupción — Yucatán Tech Community</span>
         <ul class="site-footer__links">
           <li><a href="/">Manifiesto</a></li>
-          <li><a href="/playbook">Playbook</a></li>
+          <li><a href="/codigo-de-conducta">Código de conducta</a></li>
           <li><a href="/iniciativas">Iniciativas</a></li>
           <li><a href="/eventos">Eventos</a></li>
           <li><a href="/directorio">Directorio</a></li>

@@ -2,7 +2,7 @@
 
 Sitio y protocolo de gobernanza para **Dysrupción**, la comunidad tech de Yucatán.
 
-Dysrupción nació en 2022 con 4 personas preguntándose por qué la tecnología en Yucatán crece pero los yucatecos no crecen con ella. Hoy somos casi 400. Este repositorio contiene el sitio de la comunidad, el playbook de gobernanza, y un protocolo replicable para que cualquier comunidad tech regional pueda forkearlo y adaptarlo.
+Dysrupción nació en 2022 con 4 personas preguntándose por qué la tecnología en Yucatán crece pero los yucatecos no crecen con ella. Hoy somos casi 400. Este repositorio contiene el sitio de la comunidad, el código de conducta, y un protocolo replicable para que cualquier comunidad tech regional pueda forkearlo y adaptarlo.
 
 > **Nota:** Todo lo que ves aquí es una **propuesta inicial de gobernanza**. No es definitivo. El manifiesto, las reglas, los roles, los tracks y los procesos son un punto de partida para que el grupo piloto los discuta, ajuste y valide. La comunidad decide qué se queda, qué cambia y qué se descarta. Este repositorio es la herramienta para hacer ese proceso visible y colaborativo.
 
@@ -19,7 +19,7 @@ Dysrupción nació en 2022 con 4 personas preguntándose por qué la tecnología
 | Ruta | Descripción |
 |------|-------------|
 | `/` | Manifiesto — la tesis de "innovación con identidad" |
-| `/playbook` | Playbook operativo — reglas, conflictos, roles, tracks |
+| `/codigo-de-conducta` | Código de conducta — pilares, 6 reglas, conflictos, contacto |
 | `/registro` | Formulario de registro para nuevos miembros |
 | `/proponer` | Proponer una iniciativa con beneficio local obligatorio |
 | `/directorio` | Directorio público de miembros (con consentimiento) |
@@ -73,15 +73,15 @@ dysrupcion/
 
 ## Gobernanza
 
-El playbook operativo define:
+El código de conducta define:
 
-- **5 reglas de convivencia** — respeto, no spam, conflictos por proceso, beneficio local, participación activa
-- **Proceso de conflictos** — Tier 1 (leve: advertencia progresiva) y Tier 2 (grave: círculo de resolución)
-- **Roles rotativos** — Guardianes de convivencia (3 meses), Coordinadores de track (6 meses), Facilitador de admisión
-- **5 tracks de iniciativa** — Eventos, Educación, Emprendimiento, Impacto Local, Puente
-- **Template de iniciativa** — toda propuesta declara beneficiario en Yucatán y co-líder local
+- **4 pilares** — nombre real, acceso abierto, fuerza colectiva, sin agendas ocultas
+- **6 reglas de convivencia** — colaborar > vender, humanxs antes que bots, temas relevantes, no spam, cero discursos de odio, actitud de ayuda
+- **Proceso de conflictos** — resolución directa primero, escalado al equipo de moderación cuando hace falta
+- **Consecuencias** — desde advertencia privada hasta expulsión permanente
+- **Contacto** — `dysrupcion@gmail.com` para reportar o consultar
 
-Todo está documentado en `/playbook`.
+Documento completo en [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) y en `/codigo-de-conducta`. Adaptado del [Citizen Code of Conduct](https://github.com/stumpsyn/policies/blob/master/citizen_code_of_conduct.md) (CC BY-SA 3.0).
 
 ## Protocolo — Forkea tu comunidad
 
@@ -117,8 +117,9 @@ Para configurar Supabase y las variables de entorno, consulta `/protocolo`.
 
 ## Licencia
 
-El contenido del playbook y protocolo está bajo [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-El código está bajo [MIT](LICENSE).
+El contenido editorial (manifiesto, protocolo) está bajo [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+El código de conducta está bajo [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) por compatibilidad con el Citizen Code of Conduct del que deriva.
+El código fuente está bajo [MIT](LICENSE).
 
 ---
 

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Código de Conducta — Dysrupción</title>
+  <meta name="description" content="El contrato que hace posible que Dysrupción funcione como una plaza abierta. Pilares, reglas, comportamientos esperados y proceso de conflictos.">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <style>
+    .coc {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 var(--space-md) var(--space-3xl);
+    }
+
+    .coc-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: var(--space-3xl) var(--space-md) var(--space-xl);
+    }
+
+    .coc-quote {
+      border-left: 3px solid var(--cyan);
+      padding: var(--space-md) var(--space-lg);
+      margin: var(--space-lg) 0;
+      background: var(--cyan-08);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .coc section {
+      margin-top: var(--space-3xl);
+    }
+
+    .coc h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--space-sm);
+    }
+
+    .coc .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--pink);
+      margin-bottom: var(--space-xs);
+    }
+
+    .coc p,
+    .coc li {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .coc p {
+      margin-bottom: var(--space-md);
+    }
+
+    .coc strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .coc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .coc-pillars li,
+    .coc-deny li,
+    .coc-behavior li,
+    .coc-scope li {
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .coc-pillars li:last-child,
+    .coc-deny li:last-child,
+    .coc-behavior li:last-child,
+    .coc-scope li:last-child {
+      border-bottom: none;
+    }
+
+    .coc-pillars strong,
+    .coc-deny strong,
+    .coc-behavior strong {
+      display: block;
+      color: var(--cyan);
+      margin-bottom: var(--space-2xs);
+    }
+
+    .coc-deny strong {
+      color: var(--pink);
+    }
+
+    .coc-rule {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      transition: border-color var(--dur-short) var(--ease-move);
+    }
+
+    .coc-rule:hover {
+      border-color: var(--cyan);
+    }
+
+    .coc-rule-number {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pink);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-2xs);
+    }
+
+    .coc-rule-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .coc-rule p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    .coc-steps {
+      counter-reset: coc-step;
+    }
+
+    .coc-steps li {
+      counter-increment: coc-step;
+      position: relative;
+      padding: var(--space-md) 0 var(--space-md) calc(var(--space-xl) + var(--space-sm));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .coc-steps li:last-child {
+      border-bottom: none;
+    }
+
+    .coc-steps li::before {
+      content: counter(coc-step);
+      position: absolute;
+      left: 0;
+      top: var(--space-md);
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cyan);
+      background: var(--bg);
+    }
+
+    .coc-steps strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: var(--space-2xs);
+    }
+
+    .coc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--space-md);
+      font-family: var(--font-body);
+    }
+
+    .coc-table th,
+    .coc-table td {
+      text-align: left;
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      vertical-align: top;
+    }
+
+    .coc-table th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .coc-table td:first-child {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--pink);
+      width: 48px;
+    }
+
+    .coc-table td:nth-child(2) strong {
+      color: var(--text);
+    }
+
+    .coc-contact {
+      display: inline-block;
+      margin-top: var(--space-xs);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--cyan-08);
+      border: 1px solid var(--cyan);
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .coc-contact:hover {
+      background: var(--cyan-15);
+    }
+
+    .coc-attribution {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .coc-attribution p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .coc-closing {
+      margin-top: var(--space-3xl);
+      padding: var(--space-xl);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    .coc-closing p {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: var(--space-sm);
+    }
+
+    .coc-closing p:last-child {
+      font-style: normal;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="page">
+    <section class="coc-header">
+      <p class="section-label" style="color: var(--cyan);">Gobernanza</p>
+      <h1 class="display-lg">Código de conducta</h1>
+      <p class="body-lg text-muted">
+        El contrato que hace posible que esta comunidad funcione como una plaza abierta donde proponer, actuar y construir juntos.
+      </p>
+    </section>
+
+    <article class="coc">
+      <blockquote class="coc-quote">
+        "Somos una comunidad ocupada en generar prosperidad para Yucatán a través del uso y la creación de tecnología. No estamos esperando que Yucatán se convierta en algo. Lo estamos haciendo."
+      </blockquote>
+
+      <p>
+        Este reglamento no es una lista de prohibiciones. Está basado en nuestro manifiesto.
+        Al participar, aceptas estas reglas. Son nuestras porque las construimos juntos.
+      </p>
+
+      <section>
+        <p class="section-label">Fundamento</p>
+        <h2>Los pilares que nos sostienen</h2>
+        <ul class="coc-pillars">
+          <li>
+            <strong>Nombre real, responsabilidad real.</strong>
+            Participamos con nombre y apellido. Lo que dices te pertenece.
+          </li>
+          <li>
+            <strong>Acceso y conocimiento abiertos.</strong>
+            Compartimos porque el crecimiento real ocurre cuando todos invierten tiempo, capital y experiencia.
+          </li>
+          <li>
+            <strong>Talento individual, fuerza colectiva.</strong>
+            La colaboración no es un ideal. Es algo que practicamos.
+          </li>
+          <li>
+            <strong>Sin agendas ocultas.</strong>
+            No hay proselitismo, ni posturas políticas ni religiosas.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="section-label">Convivencia</p>
+        <h2>6 reglas de convivencia</h2>
+        <p>Estas reglas no son aspiracionales — son operativas. Se aplican, se miden, y tienen consecuencias.</p>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 01</div>
+          <div class="coc-rule-title">Colaborar &gt; vender</div>
+          <p>Este no es un espacio de ventas. Antes de publicar, pregúntate: <em>¿esto aporta valor a la comunidad?</em></p>
+        </div>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 02</div>
+          <div class="coc-rule-title">Humanxs antes que bots</div>
+          <p>Evitemos compartir textos generados por AI sin contexto o demasiado largos. Queremos leerte a ti, tu experiencia, tu opinión.</p>
+        </div>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 03</div>
+          <div class="coc-rule-title">Temas relevantes y con intención</div>
+          <p>Publicaciones y comentarios deben estar relacionados con el propósito del grupo. Si es otro tema, mejor en privado.</p>
+        </div>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 04</div>
+          <div class="coc-rule-title">Evita repetir contenido o hacer spam</div>
+          <p>Si ya compartiste algo (evento, link, anuncio), no es necesario volver a publicarlo. Así mantenemos el chat fluido y relevante para todxs.</p>
+        </div>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 05</div>
+          <div class="coc-rule-title">Cero discursos de odio, sesgos de género o proselitismo político</div>
+          <p>Recuerda que el foco es <strong>tecnología, startups y creatividad</strong>. Buscamos un espacio respetuoso, seguro, colaborativo e incluyente para todxs.</p>
+        </div>
+
+        <div class="coc-rule">
+          <div class="coc-rule-number">Regla 06</div>
+          <div class="coc-rule-title">Siempre con una actitud de ayuda</div>
+          <p>Piensa: <em>¿cómo puedo aportar valor aquí? ¿cómo puedo ayudar a alguien?</em> Desde una conexión, una idea, hasta un simple "me interesa".</p>
+        </div>
+      </section>
+
+      <section>
+        <p class="section-label">Trato</p>
+        <h2>Cómo nos tratamos</h2>
+        <ul class="coc-behavior">
+          <li>
+            <strong>Debate abierto, respetuoso y enriquecedor.</strong>
+            Las ideas se confrontan con argumentos. Las personas no se atacan. El desacuerdo es bienvenido; el irrespeto no.
+          </li>
+          <li>
+            <strong>Propón, actúa, construye.</strong>
+            La participación pasiva no es suficiente. Se espera que aportes: una idea, una crítica fundamentada, una solución, un recurso.
+          </li>
+          <li>
+            <strong>Haz espacio.</strong>
+            Fomenta la participación de personas con distintos niveles de experiencia. El crecimiento de la comunidad depende de que todos puedan entrar, no solo los que ya saben.
+          </li>
+          <li>
+            <strong>Asume buena fe.</strong>
+            Ante la duda, pregunta antes de asumir mala intención. La mayoría aquí está de buena fe y trabajando por lo mismo que tú.
+          </li>
+          <li>
+            <strong>Avisa cuando algo no esté bien.</strong>
+            Si notas una situación incómoda, alguien en apuros o una violación a este código —incluso si parece menor— avísanos. No esperes a que crezca.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="section-label">Límites</p>
+        <h2>Lo que no tiene lugar aquí</h2>
+        <ul class="coc-deny">
+          <li>
+            <strong>Acoso y hostigamiento.</strong>
+            Incluye violencia, amenazas o lenguaje violento contra otra persona; intimidación deliberada, stalking o seguimiento (online o en persona); atención sexual no deseada, comentarios sexualizados, insinuaciones o contacto físico sin consentimiento; doxxing o amenaza de exponer información personal sin permiso; fotografía o grabación inapropiada. Aplica en canales públicos y en privado.
+          </li>
+          <li>
+            <strong>Discriminación.</strong>
+            No toleramos exclusión ni lenguaje ofensivo basado en género, orientación sexual, raza, etnia, edad, religión, discapacidad, nivel socioeconómico, nivel de experiencia u otras características personales. Esto incluye "bromas" disfrazadas de humor.
+          </li>
+          <li>
+            <strong>Contenido inapropiado.</strong>
+            Material sexualmente explícito o violento, insultos personales y disrupción sostenida de eventos, charlas o discusiones de la comunidad.
+          </li>
+          <li>
+            <strong>Proselitismo y agendas.</strong>
+            Esta es una comunidad técnica. La promoción de posturas políticas, religiosas o de cualquier agenda externa no tiene cabida aquí.
+          </li>
+          <li>
+            <strong>Anonimato estratégico.</strong>
+            Participamos con nombre real. Usar alias para evadir responsabilidad o para comportarse de maneras que no se harían con identidad visible no está permitido.
+          </li>
+        </ul>
+        <p style="margin-top: var(--space-lg);">
+          Apoyar, alentar o instigar cualquiera de los comportamientos anteriores cuenta igual que cometerlos.
+        </p>
+      </section>
+
+      <section>
+        <p class="section-label">Alcance</p>
+        <h2>Dónde aplica este código</h2>
+        <ul class="coc-scope">
+          <li>Todos los espacios compartidos de la comunidad: canales de texto, voz, foros, eventos presenciales y en línea.</li>
+          <li>Comunicaciones uno-a-uno entre miembros cuando tratan asuntos de la comunidad.</li>
+          <li>Conducta fuera de la comunidad cuando tenga el potencial de afectar la seguridad o el bienestar de un miembro.</li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="section-label">Resolución</p>
+        <h2>Si hay un conflicto</h2>
+        <p>Empezamos por la resolución directa. Solo escalamos cuando es necesario.</p>
+        <ol class="coc-steps">
+          <li>
+            <strong>Habla directamente.</strong>
+            Si algo te incomodó, considera decírselo a la persona. La mayoría de los roces se resuelven aquí, con respeto y buena fe.
+          </li>
+          <li>
+            <strong>Escribe al equipo de moderación.</strong>
+            Si el diálogo directo no es posible o no fue suficiente, escríbenos a <a href="mailto:dysrupcion@gmail.com" class="link-cyan">dysrupcion@gmail.com</a>. No necesitas estar seguro de que fue una infracción para contactarnos.
+          </li>
+          <li>
+            <strong>Investigación confidencial.</strong>
+            El equipo revisará el caso, escuchará a las partes y evaluará con base en este reglamento. La identidad de quien reporta se protege.
+          </li>
+          <li>
+            <strong>Decisión y seguimiento.</strong>
+            Se comunica la resolución. Si aplica, se implementan las consecuencias correspondientes. Quien reportó recibe confirmación de que fue atendido.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <p class="section-label">Consecuencias</p>
+        <h2>Lo que puede pasar</h2>
+        <table class="coc-table">
+          <thead>
+            <tr>
+              <th>Nivel</th>
+              <th>Nombre y descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Advertencia privada.</strong> Primera infracción leve, con explicación de por qué.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Restricción temporal.</strong> Silencio o suspensión de canales (24 h – 7 días).</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Suspensión con revisión.</strong> Exclusión temporal con proceso de reingreso.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Expulsión permanente.</strong> Infracciones graves o reiteradas. Sin reingreso.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: var(--space-lg);">
+          A quien se le pida detener una conducta inaceptable se espera que cumpla de inmediato.
+        </p>
+      </section>
+
+      <section>
+        <p class="section-label">Reportes</p>
+        <h2>Confidencialidad y contacto</h2>
+        <p>
+          Todos los reportes son tratados con <strong>confidencialidad total</strong>. Tu identidad no será revelada sin tu consentimiento. Puedes escribirnos aunque no estés seguro de que lo que viviste fue una infracción. Estamos aquí para escucharte.
+        </p>
+        <a href="mailto:dysrupcion@gmail.com" class="coc-contact">dysrupcion@gmail.com</a>
+      </section>
+
+      <div class="coc-attribution">
+        <p>
+          Este código de conducta toma como base el <a href="https://github.com/stumpsyn/policies/blob/master/citizen_code_of_conduct.md" class="link-cyan" target="_blank" rel="noopener">Citizen Code of Conduct</a> de Stumptown Syndicate (revisión 2.3, 2013–2017), adaptado al contexto y la voz de Dysrupción. Distribuido bajo la licencia <a href="https://creativecommons.org/licenses/by-sa/3.0/" class="link-cyan" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 3.0</a>. Porciones del texto original derivan a su vez del Django Code of Conduct y de la Geek Feminism Anti-Harassment Policy.
+        </p>
+      </div>
+
+      <div class="coc-closing">
+        <p>"Creemos en el talento individual, pero en la fuerza del colectivo para potenciarlo."</p>
+        <p>Este reglamento es tan nuestro como el manifiesto. Léelo. Vívelo.</p>
+      </div>
+    </article>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+</body>
+</html>

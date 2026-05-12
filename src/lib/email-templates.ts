@@ -85,8 +85,8 @@ El comité te va a contactar pronto con los detalles para sumarte al chat y a la
 
 Estamos construyendo un espacio donde participar no es opcional: se construye, se propone, se actúa. Te esperamos ahí.
 
-Mientras tanto, dale una vuelta al protocolo y al directorio de iniciativas:
-${siteUrl}/playbook
+Mientras tanto, dale una vuelta al código de conducta y al directorio de iniciativas:
+${siteUrl}/codigo-de-conducta
 ${siteUrl}/iniciativas
 
 ${SIGNATURE}
