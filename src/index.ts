@@ -4,7 +4,7 @@ import { handleInitiatives } from "./routes/initiatives";
 import { handleEvents } from "./routes/events";
 import { handleMetrics } from "./routes/metrics";
 import { handleScrape } from "./routes/scrape";
-import { handleAdmin } from "./routes/admin";
+import { checkAdminAuth, handleAdmin } from "./routes/admin";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -13,6 +13,8 @@ export interface Env {
   FROM_EMAIL: string;
   SITE_URL: string;
   RESEND_API_KEY?: string;
+  ADMIN_USER?: string;
+  ADMIN_PASS?: string;
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -52,7 +54,9 @@ export default {
         let response: Response;
 
         if (url.pathname.startsWith("/api/admin/")) {
-          response = await handleAdmin(request, env, ctx);
+          const auth = checkAdminAuth(request, env);
+          if (!auth.ok) return withCors(auth.response);
+          response = await handleAdmin(request, env, ctx, { email: auth.email });
           return withCors(response);
         }
 
@@ -84,6 +88,12 @@ export default {
         const message = err instanceof Error ? err.message : "Internal server error";
         return withCors(errorResponse(message, 500));
       }
+    }
+
+    // Gate the static admin panel behind the same auth as /api/admin/*
+    if (url.pathname === "/admin" || url.pathname.startsWith("/admin/")) {
+      const auth = checkAdminAuth(request, env);
+      if (!auth.ok) return auth.response;
     }
 
     // Static assets are served automatically by Cloudflare

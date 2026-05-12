@@ -4,7 +4,7 @@ compatibility_date = "2024-12-01"
 account_id = "9d55676c2da03b0899c0d87a00efc8e1"
 
 [vars]
-ADMIN_EMAIL = "beto210391@gmail.com"
+ADMIN_EMAIL = "dysrupcion@gmail.com"
 FROM_EMAIL = "Dysrupcion <onboarding@resend.dev>"
 SITE_URL = "https://dysrupcion.dysrupcion.workers.dev"
 

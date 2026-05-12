@@ -7,26 +7,82 @@ import {
   initiativeRejected,
 } from "../lib/email-templates";
 
-interface AdminUser {
+export interface AdminUser {
   email: string;
 }
 
-// NOTE: Trust comes from Cloudflare Access stripping/replacing this header
-// before the request hits the Worker. For this to be secure, /api/admin/*
-// MUST be fronted by an Access application. As a follow-up, verify the
-// Cf-Access-Jwt-Assertion JWT signature against the team's JWKS — that
-// catches the case where someone hits the raw workers.dev URL.
-function getAdminUser(request: Request): AdminUser | null {
-  const email = request.headers.get("Cf-Access-Authenticated-User-Email");
-  if (!email) return null;
-  return { email };
+type AuthResult =
+  | { ok: true; email: string }
+  | { ok: false; response: Response };
+
+const BASIC_AUTH_REALM = 'Basic realm="Dysrupcion Admin", charset="UTF-8"';
+
+function basicAuthChallenge(): Response {
+  return new Response("Authentication required", {
+    status: 401,
+    headers: { "WWW-Authenticate": BASIC_AUTH_REALM },
+  });
 }
 
-function unauthorized(): Response {
-  return Response.json(
-    { error: "No autorizado. Esta ruta requiere login a través de Cloudflare Access." },
-    { status: 401 },
-  );
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+function decodeBasicAuth(value: string): string | null {
+  try {
+    const bytes = Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+    return new TextDecoder("utf-8").decode(bytes);
+  } catch {
+    return null;
+  }
+}
+
+// When ADMIN_USER + ADMIN_PASS are set, Basic Auth is the ONLY accepted
+// mechanism — the Cf-Access header is ignored. This closes the spoofing
+// vector on the public workers.dev URL while we don't yet have a custom
+// domain behind Cloudflare Access.
+//
+// When Basic Auth secrets are absent, we trust the Cf-Access header. That
+// mode is ONLY safe when /api/admin/* is fronted by an Access application
+// (CF strips Cf-Access-* headers on requests that traverse Access). As a
+// follow-up, verify the Cf-Access-Jwt-Assertion JWT against the team JWKS
+// before flipping to Cf-Access-only.
+export function checkAdminAuth(request: Request, env: Env): AuthResult {
+  const basicConfigured = Boolean(env.ADMIN_USER && env.ADMIN_PASS);
+
+  if (basicConfigured) {
+    const auth = request.headers.get("Authorization");
+    if (!auth || !auth.startsWith("Basic ")) {
+      return { ok: false, response: basicAuthChallenge() };
+    }
+    const decoded = decodeBasicAuth(auth.slice(6));
+    if (decoded === null) {
+      return { ok: false, response: basicAuthChallenge() };
+    }
+    const colon = decoded.indexOf(":");
+    if (colon < 0) {
+      return { ok: false, response: basicAuthChallenge() };
+    }
+    const user = decoded.slice(0, colon);
+    const pass = decoded.slice(colon + 1);
+    if (
+      timingSafeEqual(user, env.ADMIN_USER as string) &&
+      timingSafeEqual(pass, env.ADMIN_PASS as string)
+    ) {
+      return { ok: true, email: env.ADMIN_EMAIL };
+    }
+    return { ok: false, response: basicAuthChallenge() };
+  }
+
+  const accessEmail = request.headers.get("Cf-Access-Authenticated-User-Email");
+  if (accessEmail) return { ok: true, email: accessEmail };
+
+  return { ok: false, response: basicAuthChallenge() };
 }
 
 function notFound(): Response {
@@ -40,10 +96,8 @@ export async function handleAdmin(
   request: Request,
   env: Env,
   ctx: ExecutionContext,
+  admin: AdminUser,
 ): Promise<Response> {
-  const admin = getAdminUser(request);
-  if (!admin) return unauthorized();
-
   const url = new URL(request.url);
   const path = url.pathname;
   const method = request.method;
