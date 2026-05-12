@@ -1,4 +1,6 @@
 import type { Env } from "../index";
+import { sendEmail } from "../lib/email";
+import { adminNewApplication } from "../lib/email-templates";
 
 interface RegisterBody {
   nombre: string;
@@ -22,7 +24,11 @@ const REQUIRED_FIELDS: (keyof RegisterBody)[] = [
   "motivacion",
 ];
 
-export async function handleRegister(request: Request, env: Env): Promise<Response> {
+export async function handleRegister(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
   if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
@@ -70,10 +76,32 @@ export async function handleRegister(request: Request, env: Env): Promise<Respon
       )
       .run();
 
+    const newId = result.meta.last_row_id ?? 0;
+    const email = adminNewApplication(env.SITE_URL, {
+      id: newId,
+      nombre: body.nombre,
+      email: body.email,
+      whatsapp: body.whatsapp,
+      linkedin: body.linkedin,
+      github: body.github ?? null,
+      origen: body.origen ?? null,
+      expertise: body.expertise ?? null,
+      motivacion: body.motivacion,
+      referred_by: body.referred_by ?? null,
+    });
+    ctx.waitUntil(
+      sendEmail(env, {
+        to: env.ADMIN_EMAIL,
+        subject: email.subject,
+        text: email.text,
+        replyTo: body.email,
+      }).catch((err) => console.error("[email] admin notice (application) failed:", err)),
+    );
+
     return Response.json(
       {
         ok: true,
-        id: result.meta.last_row_id,
+        id: newId,
         message: "Solicitud recibida. Te contactaremos pronto.",
       },
       { status: 201 },
