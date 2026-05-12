@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Dysrupción</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <style>
+    .admin-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border, #222);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .admin-badge {
+      display: inline-block;
+      background: var(--accent-pink, #f0f);
+      color: #000;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .admin-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .admin-tab {
+      background: transparent;
+      border: 1px solid var(--border, #2a2a2a);
+      color: var(--text-muted, #888);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      transition: all 0.15s;
+    }
+    .admin-tab.active {
+      background: var(--accent-cyan, #0ff);
+      color: #000;
+      border-color: transparent;
+    }
+    .admin-card {
+      background: var(--bg-surface, #111);
+      border: 1px solid var(--border, #222);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .admin-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .admin-card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    .admin-card-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted, #888);
+    }
+    .admin-fields {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.4rem 1rem;
+      margin: 0.75rem 0 1rem;
+      font-size: 0.9rem;
+    }
+    .admin-fields dt {
+      color: var(--text-muted, #888);
+      font-weight: 500;
+    }
+    .admin-fields dd {
+      margin: 0;
+      word-break: break-word;
+    }
+    .admin-fields dd a {
+      color: var(--accent-cyan, #0ff);
+    }
+    .admin-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-approve {
+      background: #10b981;
+      color: #000;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+    .btn-reject {
+      background: transparent;
+      color: #f87171;
+      border: 1px solid #f87171;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .btn-approve:disabled,
+    .btn-reject:disabled {
+      opacity: 0.4;
+      cursor: progress;
+    }
+    .admin-section {
+      margin-bottom: 3rem;
+    }
+    .admin-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .admin-empty {
+      color: var(--text-muted, #888);
+      font-style: italic;
+      padding: 1rem 0;
+    }
+    .admin-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      z-index: 1000;
+      animation: toast-in 0.2s ease-out;
+    }
+    .admin-toast.success { background: #10b981; color: #000; }
+    .admin-toast.error { background: #f87171; color: #000; }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .admin-motivacion {
+      white-space: pre-wrap;
+      background: rgba(255,255,255,0.03);
+      padding: 0.5rem 0.75rem;
+      border-left: 3px solid var(--accent-cyan, #0ff);
+      border-radius: 4px;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="page" style="max-width: 960px; margin: 0 auto; padding: 1.5rem;">
+    <div class="admin-header">
+      <div>
+        <span class="admin-badge">Admin</span>
+        <h1 class="display-md" style="margin: 0.25rem 0 0;">Comité de Dysrupción</h1>
+      </div>
+      <div class="admin-card-meta">
+        Logueado como <span id="admin-email">…</span>
+      </div>
+    </div>
+
+    <section class="admin-section" id="section-applications">
+      <div class="admin-section-header">
+        <h2>Solicitudes de miembros</h2>
+      </div>
+      <div class="admin-tabs" data-target="applications">
+        <button class="admin-tab active" data-status="pending">Pendientes</button>
+        <button class="admin-tab" data-status="approved">Aprobadas</button>
+        <button class="admin-tab" data-status="rejected">Rechazadas</button>
+      </div>
+      <div id="applications-list">
+        <p class="admin-empty">Cargando…</p>
+      </div>
+    </section>
+
+    <section class="admin-section" id="section-initiatives">
+      <div class="admin-section-header">
+        <h2>Solicitudes de iniciativas</h2>
+      </div>
+      <div class="admin-tabs" data-target="initiatives">
+        <button class="admin-tab active" data-status="pending">Pendientes</button>
+        <button class="admin-tab" data-status="approved">Aprobadas</button>
+        <button class="admin-tab" data-status="rejected">Rechazadas</button>
+      </div>
+      <div id="initiatives-list">
+        <p class="admin-empty">Cargando…</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
