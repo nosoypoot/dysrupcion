@@ -50,7 +50,7 @@ export async function handleRegister(
 
   if (!body.contrato) {
     return Response.json(
-      { error: "Debes aceptar el contrato social para continuar" },
+      { error: "Debes aceptar el código de conducta para continuar" },
       { status: 400 },
     );
   }
