@@ -7,6 +7,7 @@ import { handleScrape } from "./routes/scrape";
 
 export interface Env {
   ASSETS: Fetcher;
+  DB: D1Database;
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -47,7 +48,7 @@ export default {
 
         switch (url.pathname) {
           case "/api/register":
-            response = await handleRegister(request);
+            response = await handleRegister(request, env);
             break;
           case "/api/members":
             response = await handleMembers(request);
