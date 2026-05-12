@@ -20,6 +20,16 @@
     return div.innerHTML;
   }
 
+  function safeHttpUrl(url) {
+    if (!url) return null;
+    try {
+      var u = new URL(url);
+      return (u.protocol === 'http:' || u.protocol === 'https:') ? url : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function trackTagClass(track) {
     switch (track) {
       case 'Emprendimiento': return 'tag tag-pink';
@@ -40,8 +50,9 @@
       var card = document.createElement('article');
       card.className = 'card initiative-card';
 
-      var titleBlock = ini.website_url
-        ? '<a class="initiative-title-link" href="' + escapeHtml(ini.website_url) + '" target="_blank" rel="noopener noreferrer"><h3 class="initiative-title">' + escapeHtml(ini.title) + ' ↗</h3></a>'
+      var safeUrl = safeHttpUrl(ini.website_url);
+      var titleBlock = safeUrl
+        ? '<a class="initiative-title-link" href="' + escapeHtml(safeUrl) + '" target="_blank" rel="noopener noreferrer"><h3 class="initiative-title">' + escapeHtml(ini.title) + ' ↗</h3></a>'
         : '<h3 class="initiative-title">' + escapeHtml(ini.title) + '</h3>';
 
       card.innerHTML =

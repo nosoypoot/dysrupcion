@@ -12,6 +12,22 @@
     return div.innerHTML;
   }
 
+  function safeHttpUrl(url) {
+    if (!url) return null;
+    try {
+      var u = new URL(url);
+      return (u.protocol === 'http:' || u.protocol === 'https:') ? url : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function safeLink(url, label) {
+    var safe = safeHttpUrl(url);
+    if (!safe) return escapeHtml(url);
+    return '<a href="' + escapeHtml(safe) + '" target="_blank" rel="noopener">' + escapeHtml(label || url) + '</a>';
+  }
+
   function fmtDate(s) {
     if (!s) return '—';
     return s.replace('T', ' ').slice(0, 16);
@@ -63,8 +79,8 @@
         '<dl class="admin-fields">' +
           '<dt>Email</dt><dd><a href="mailto:' + escapeHtml(app.email) + '">' + escapeHtml(app.email) + '</a></dd>' +
           '<dt>WhatsApp</dt><dd>' + escapeHtml(app.whatsapp) + '</dd>' +
-          '<dt>LinkedIn</dt><dd><a href="' + escapeHtml(app.linkedin) + '" target="_blank" rel="noopener">' + escapeHtml(app.linkedin) + '</a></dd>' +
-          (app.github ? '<dt>GitHub</dt><dd><a href="' + escapeHtml(app.github) + '" target="_blank" rel="noopener">' + escapeHtml(app.github) + '</a></dd>' : '') +
+          '<dt>LinkedIn</dt><dd>' + safeLink(app.linkedin) + '</dd>' +
+          (app.github ? '<dt>GitHub</dt><dd>' + safeLink(app.github) + '</dd>' : '') +
           (app.origen ? '<dt>Origen</dt><dd>' + escapeHtml(app.origen) + '</dd>' : '') +
           (app.expertise ? '<dt>Rol</dt><dd>' + escapeHtml(app.expertise) + '</dd>' : '') +
           (app.referred_by ? '<dt>Referido por</dt><dd>' + escapeHtml(app.referred_by) + '</dd>' : '') +
@@ -111,11 +127,11 @@
         '<p class="admin-motivacion" style="border-left-color: var(--accent-yellow, #ff0);">' + escapeHtml(ini.description) + '</p>' +
         '<dl class="admin-fields" style="margin-top: 1rem;">' +
           '<dt>Propuesto por</dt><dd>' + escapeHtml(ini.proposer_name) + ' &lt;<a href="mailto:' + escapeHtml(ini.proposer_email) + '">' + escapeHtml(ini.proposer_email) + '</a>&gt;</dd>' +
-          (ini.website_url ? '<dt>Website</dt><dd><a href="' + escapeHtml(ini.website_url) + '" target="_blank" rel="noopener">' + escapeHtml(ini.website_url) + '</a></dd>' : '') +
+          (ini.website_url ? '<dt>Website</dt><dd>' + safeLink(ini.website_url) + '</dd>' : '') +
           (ini.public_contact ? '<dt>Contacto público</dt><dd>' + escapeHtml(ini.public_contact) + '</dd>' : '') +
           (ini.looking_for ? '<dt>Buscan</dt><dd>' + escapeHtml(ini.looking_for) + '</dd>' : '') +
           (ini.launched_at ? '<dt>Lanzamiento</dt><dd>' + escapeHtml(ini.launched_at) + '</dd>' : '') +
-          (ini.logo_url ? '<dt>Logo</dt><dd><a href="' + escapeHtml(ini.logo_url) + '" target="_blank" rel="noopener">' + escapeHtml(ini.logo_url) + '</a></dd>' : '') +
+          (ini.logo_url ? '<dt>Logo</dt><dd>' + safeLink(ini.logo_url) + '</dd>' : '') +
         '</dl>' +
         '<div style="margin-top: 1rem;">' + actions + '</div>' +
       '</article>';
