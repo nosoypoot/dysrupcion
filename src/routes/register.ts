@@ -9,6 +9,7 @@ interface RegisterBody {
   github?: string;
   origen?: string;
   expertise?: string;
+  referred_by?: string;
   contrato?: boolean;
   directorio?: boolean;
 }
@@ -51,8 +52,8 @@ export async function handleRegister(request: Request, env: Env): Promise<Respon
   try {
     const result = await env.DB.prepare(
       `INSERT INTO member_applications
-        (nombre, email, whatsapp, linkedin, github, origen, expertise, motivacion, acepta_contrato, directorio_publico)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (nombre, email, whatsapp, linkedin, github, origen, expertise, referred_by, motivacion, acepta_contrato, directorio_publico)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
       .bind(
         body.nombre,
@@ -62,6 +63,7 @@ export async function handleRegister(request: Request, env: Env): Promise<Respon
         body.github ?? null,
         body.origen ?? null,
         body.expertise ?? null,
+        body.referred_by ?? null,
         body.motivacion,
         1,
         body.directorio ? 1 : 0,
