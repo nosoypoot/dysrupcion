@@ -29,6 +29,21 @@
           </div>
 
           <div class="input-group">
+            <label class="input-label" for="whatsapp">WhatsApp <span class="required">*</span></label>
+            <input class="input" type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel" placeholder="+52 999 123 4567">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="linkedin">LinkedIn <span class="required">*</span></label>
+            <input class="input" type="url" id="linkedin" name="linkedin" required placeholder="https://linkedin.com/in/tu-perfil">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="github">GitHub <span class="text-muted">(opcional)</span></label>
+            <input class="input" type="url" id="github" name="github" placeholder="https://github.com/tu-usuario">
+          </div>
+
+          <div class="input-group">
             <label class="input-label" for="origen">Origen</label>
             <select class="input" id="origen" name="origen">
               <option value="">Selecciona tu origen</option>
@@ -44,15 +59,8 @@
           </div>
 
           <div class="input-group">
-            <label class="input-label" for="track">Track de interes</label>
-            <select class="input" id="track" name="track">
-              <option value="">Selecciona un track</option>
-              <option value="eventos">Eventos y Encuentros</option>
-              <option value="educacion">Educación y Mentoría</option>
-              <option value="emprendimiento">Emprendimiento y Colaboración</option>
-              <option value="impacto">Impacto Local</option>
-              <option value="puente">Puente con Otras Comunidades</option>
-            </select>
+            <label class="input-label" for="motivacion">¿Por qué quieres pertenecer a la comunidad de Dysrupción? <span class="required">*</span></label>
+            <textarea class="input" id="motivacion" name="motivacion" rows="5" required placeholder="Cuéntanos en tus palabras qué te trae aquí y qué esperas aportar."></textarea>
           </div>
 
           <div class="input-group checkbox-group">
@@ -71,7 +79,7 @@
 
           <div id="form-message" class="form-message" hidden></div>
 
-          <button type="submit" class="btn-primary btn-full">Enviar Solicitud</button>
+          <button type="submit" class="btn-primary btn-full btn-lg">Solicitar mi ingreso →</button>
 
           <p class="form-footer text-muted body-sm">Al registrarte aceptas el contrato social de Dysrupcion.</p>
         </form>
