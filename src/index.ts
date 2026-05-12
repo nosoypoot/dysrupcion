@@ -54,7 +54,7 @@ export default {
             response = await handleMembers(request);
             break;
           case "/api/initiatives":
-            response = await handleInitiatives(request);
+            response = await handleInitiatives(request, env);
             break;
           case "/api/events":
             response = await handleEvents(request);
