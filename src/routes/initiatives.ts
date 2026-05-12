@@ -1,4 +1,6 @@
 import type { Env } from "../index";
+import { sendEmail } from "../lib/email";
+import { adminNewInitiative } from "../lib/email-templates";
 
 const TRACKS = [
   "Eventos",
@@ -48,7 +50,11 @@ const REQUIRED_FIELDS: (keyof CreateInitiativeBody)[] = [
   "proposer_email",
 ];
 
-export async function handleInitiatives(request: Request, env: Env): Promise<Response> {
+export async function handleInitiatives(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
   const url = new URL(request.url);
 
   if (request.method === "GET") {
@@ -115,10 +121,33 @@ export async function handleInitiatives(request: Request, env: Env): Promise<Res
         )
         .run();
 
+      const newId = result.meta.last_row_id ?? 0;
+      const email = adminNewInitiative(env.SITE_URL, {
+        id: newId,
+        title: body.title,
+        tagline: body.tagline,
+        description: body.description,
+        track: body.track,
+        proposer_name: body.proposer_name,
+        proposer_email: body.proposer_email,
+        website_url: body.website_url ?? null,
+        looking_for: body.looking_for ?? null,
+        public_contact: body.public_contact ?? null,
+        launched_at: body.launched_at ?? null,
+      });
+      ctx.waitUntil(
+        sendEmail(env, {
+          to: env.ADMIN_EMAIL,
+          subject: email.subject,
+          text: email.text,
+          replyTo: body.proposer_email,
+        }).catch((err) => console.error("[email] admin notice (initiative) failed:", err)),
+      );
+
       return Response.json(
         {
           ok: true,
-          id: result.meta.last_row_id,
+          id: newId,
           message: "Iniciativa recibida. La revisaremos y te avisamos cuando se publique.",
         },
         { status: 201 },

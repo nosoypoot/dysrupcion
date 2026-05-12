@@ -9,6 +9,10 @@ import { handleAdmin } from "./routes/admin";
 export interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
+  ADMIN_EMAIL: string;
+  FROM_EMAIL: string;
+  SITE_URL: string;
+  RESEND_API_KEY?: string;
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -48,19 +52,19 @@ export default {
         let response: Response;
 
         if (url.pathname.startsWith("/api/admin/")) {
-          response = await handleAdmin(request, env);
+          response = await handleAdmin(request, env, ctx);
           return withCors(response);
         }
 
         switch (url.pathname) {
           case "/api/register":
-            response = await handleRegister(request, env);
+            response = await handleRegister(request, env, ctx);
             break;
           case "/api/members":
             response = await handleMembers(request);
             break;
           case "/api/initiatives":
-            response = await handleInitiatives(request, env);
+            response = await handleInitiatives(request, env, ctx);
             break;
           case "/api/events":
             response = await handleEvents(request);
