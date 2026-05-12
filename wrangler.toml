@@ -1,6 +1,13 @@
 name = "dysrupcion"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
+account_id = "9d55676c2da03b0899c0d87a00efc8e1"
 
 [assets]
 directory = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dysrupcion-db"
+database_id = "e65c3683-47ee-47bf-a737-91772e83ab0c"
+migrations_dir = "migrations"
