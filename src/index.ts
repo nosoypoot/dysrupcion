@@ -4,6 +4,7 @@ import { handleInitiatives } from "./routes/initiatives";
 import { handleEvents } from "./routes/events";
 import { handleMetrics } from "./routes/metrics";
 import { handleScrape } from "./routes/scrape";
+import { handleAdmin } from "./routes/admin";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -46,6 +47,11 @@ export default {
       try {
         let response: Response;
 
+        if (url.pathname.startsWith("/api/admin/")) {
+          response = await handleAdmin(request, env);
+          return withCors(response);
+        }
+
         switch (url.pathname) {
           case "/api/register":
             response = await handleRegister(request, env);
@@ -54,7 +60,7 @@ export default {
             response = await handleMembers(request);
             break;
           case "/api/initiatives":
-            response = await handleInitiatives(request);
+            response = await handleInitiatives(request, env);
             break;
           case "/api/events":
             response = await handleEvents(request);

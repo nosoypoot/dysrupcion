@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publica tu iniciativa — Dysrupción</title>
+  <meta name="description" content="Comparte un proyecto que ya estás construyendo en Yucatán para que la comunidad de Dysrupción lo conozca.">
+  <link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="form-page">
+    <section class="form-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h1 class="display-md">Publica tu iniciativa</h1>
+          <p class="body-lg text-muted">
+            Esto es para proyectos que <strong>ya están en marcha</strong> — no para ideas. Si tu iniciativa todavía es propuesta, espera a tener algo público y vuelve.
+          </p>
+        </div>
+
+        <form id="initiative-form" novalidate>
+          <div class="input-group">
+            <label class="input-label" for="title">Nombre de la iniciativa <span class="required">*</span></label>
+            <input class="input" type="text" id="title" name="title" required placeholder="ej. Maayataan">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="tagline">Una línea que la describa <span class="required">*</span></label>
+            <input class="input" type="text" id="tagline" name="tagline" required maxlength="140" placeholder="ej. Aprende maya yucateco en línea">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="description">Descripción <span class="required">*</span></label>
+            <textarea class="input" id="description" name="description" rows="6" required placeholder="Qué es, por qué la construyes, qué problema resuelve, dónde está hoy."></textarea>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="track">Track <span class="required">*</span></label>
+            <select class="input" id="track" name="track" required>
+              <option value="">Selecciona un track</option>
+              <option value="Eventos">Eventos</option>
+              <option value="Educacion">Educación</option>
+              <option value="Emprendimiento">Emprendimiento</option>
+              <option value="Impacto Local">Impacto Local</option>
+              <option value="Puente">Puente</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="website_url">URL del proyecto <span class="text-muted">(opcional pero recomendado)</span></label>
+            <input class="input" type="url" id="website_url" name="website_url" placeholder="https://maayataan.org">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="logo_url">URL del logo <span class="text-muted">(opcional)</span></label>
+            <input class="input" type="url" id="logo_url" name="logo_url" placeholder="https://...">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="launched_at">Fecha de lanzamiento <span class="text-muted">(opcional)</span></label>
+            <input class="input" type="date" id="launched_at" name="launched_at">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="looking_for">¿Qué estás buscando? <span class="text-muted">(opcional)</span></label>
+            <textarea class="input" id="looking_for" name="looking_for" rows="3" placeholder="ej. Contribuidores de contenido, devs frontend, patrocinadores, mentores..."></textarea>
+          </div>
+
+          <hr class="separator">
+
+          <div class="input-group">
+            <label class="input-label" for="proposer_name">Tu nombre <span class="required">*</span></label>
+            <input class="input" type="text" id="proposer_name" name="proposer_name" required autocomplete="name">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="proposer_email">Tu email <span class="required">*</span></label>
+            <input class="input" type="email" id="proposer_email" name="proposer_email" required autocomplete="email">
+            <p class="body-sm text-muted">Sólo para que el equipo de Dysrupción te pueda contactar. No se publica.</p>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="public_contact">Contacto público <span class="text-muted">(opcional)</span></label>
+            <input class="input" type="text" id="public_contact" name="public_contact" placeholder="email, twitter, discord, lo que prefieras publicar">
+          </div>
+
+          <div id="form-message" class="form-message" hidden></div>
+
+          <button type="submit" class="btn-primary btn-full btn-lg">Enviar iniciativa →</button>
+
+          <p class="form-footer text-muted body-sm">Revisamos cada solicitud antes de publicarla en el directorio.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="/js/layout.js"></script>
+  <script>
+    document.getElementById('initiative-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const message = document.getElementById('form-message');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const res = await fetch('/api/initiatives', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          const body = await res.json().catch(() => ({}));
+          message.textContent = body.message || 'Iniciativa enviada. Te avisamos cuando se publique.';
+          message.className = 'form-message success';
+          message.hidden = false;
+          form.reset();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          message.textContent = err.error || 'Error al enviar la iniciativa. Intenta de nuevo.';
+          message.className = 'form-message error';
+          message.hidden = false;
+        }
+      } catch {
+        message.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+        message.className = 'form-message error';
+        message.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,48 +1,135 @@
-import { initiatives, type Initiative, type Track } from "../lib/mock-data";
+import type { Env } from "../index";
+
+const TRACKS = [
+  "Eventos",
+  "Educacion",
+  "Emprendimiento",
+  "Impacto Local",
+  "Puente",
+] as const;
+type Track = (typeof TRACKS)[number];
+
+interface InitiativeRow {
+  id: number;
+  title: string;
+  tagline: string;
+  description: string;
+  track: Track;
+  proposer_name: string;
+  website_url: string | null;
+  logo_url: string | null;
+  looking_for: string | null;
+  public_contact: string | null;
+  launched_at: string | null;
+  published_at: string | null;
+  status: "active" | "paused" | "completed";
+}
 
 interface CreateInitiativeBody {
   title: string;
-  problem: string;
-  beneficiary: string;
-  co_lead_local: string;
-  resources_needed: string[];
+  tagline: string;
+  description: string;
   track: Track;
   proposer_name: string;
+  proposer_email: string;
+  website_url?: string;
+  logo_url?: string;
+  looking_for?: string;
+  public_contact?: string;
+  launched_at?: string;
 }
 
-export async function handleInitiatives(request: Request): Promise<Response> {
+const REQUIRED_FIELDS: (keyof CreateInitiativeBody)[] = [
+  "title",
+  "tagline",
+  "description",
+  "track",
+  "proposer_name",
+  "proposer_email",
+];
+
+export async function handleInitiatives(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
 
   if (request.method === "GET") {
-    const trackFilter = url.searchParams.get("track") as Track | null;
-    let filtered = initiatives;
-    if (trackFilter) {
-      filtered = initiatives.filter((i) => i.track === trackFilter);
-    }
-    return Response.json({ initiatives: filtered });
+    const trackFilter = url.searchParams.get("track");
+    const baseQuery = `
+      SELECT id, title, tagline, description, track, proposer_name,
+             website_url, logo_url, looking_for, public_contact,
+             launched_at, published_at, status
+        FROM initiatives
+       WHERE review_status = 'approved'
+         AND status != 'completed'
+    `;
+
+    const stmt = trackFilter
+      ? env.DB.prepare(baseQuery + " AND track = ? ORDER BY submitted_at DESC").bind(trackFilter)
+      : env.DB.prepare(baseQuery + " ORDER BY submitted_at DESC");
+
+    const { results } = await stmt.all<InitiativeRow>();
+    return Response.json({ initiatives: results ?? [] });
   }
 
   if (request.method === "POST") {
     let body: CreateInitiativeBody;
     try {
-      body = await request.json() as CreateInitiativeBody;
+      body = (await request.json()) as CreateInitiativeBody;
     } catch {
-      return Response.json({ error: "Invalid JSON body" }, { status: 400 });
+      return Response.json({ error: "JSON inválido" }, { status: 400 });
     }
 
-    const initiative: Initiative = {
-      id: `i-${Date.now()}`,
-      title: body.title,
-      problem: body.problem,
-      beneficiary: body.beneficiary,
-      co_lead_local: body.co_lead_local,
-      resources_needed: body.resources_needed ?? [],
-      track: body.track,
-      status: "draft",
-      proposer_name: body.proposer_name,
-    };
+    const missing = REQUIRED_FIELDS.filter((f) => !body[f]);
+    if (missing.length > 0) {
+      return Response.json(
+        { error: `Faltan campos requeridos: ${missing.join(", ")}` },
+        { status: 400 },
+      );
+    }
 
-    return Response.json({ ok: true, initiative }, { status: 201 });
+    if (!TRACKS.includes(body.track)) {
+      return Response.json(
+        { error: `Track inválido. Opciones: ${TRACKS.join(", ")}` },
+        { status: 400 },
+      );
+    }
+
+    try {
+      const result = await env.DB.prepare(
+        `INSERT INTO initiatives
+          (title, tagline, description, track, proposer_name, proposer_email,
+           website_url, logo_url, looking_for, public_contact, launched_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+        .bind(
+          body.title,
+          body.tagline,
+          body.description,
+          body.track,
+          body.proposer_name,
+          body.proposer_email,
+          body.website_url ?? null,
+          body.logo_url ?? null,
+          body.looking_for ?? null,
+          body.public_contact ?? null,
+          body.launched_at ?? null,
+        )
+        .run();
+
+      return Response.json(
+        {
+          ok: true,
+          id: result.meta.last_row_id,
+          message: "Iniciativa recibida. La revisaremos y te avisamos cuando se publique.",
+        },
+        { status: 201 },
+      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Error desconocido";
+      return Response.json(
+        { error: "Error al guardar la iniciativa", detail: msg },
+        { status: 500 },
+      );
+    }
   }
 
   return Response.json({ error: "Method not allowed" }, { status: 405 });
