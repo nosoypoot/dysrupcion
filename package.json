@@ -6,14 +6,17 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.cjs",
+    "build:review": "node scripts/build-review.mjs",
+    "preview:review": "npm run build:review && node scripts/preview-review.cjs"
   },
   "keywords": ["community", "governance", "yucatan", "tech", "cloudflare-workers"],
   "author": "Dysrupción Community",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nosoypoot/dysrupcion.git"
+    "url": "https://github.com/crismxiex/dysrupcion.git"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260317.1",

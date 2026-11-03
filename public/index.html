@@ -3,529 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dysrupción — Comunidad tech de Yucatán</title>
-  <meta name="description" content="Comunidad tech de Yucatán ocupada en generar prosperidad a través del uso y la creación de tecnología.">
+  <meta name="theme-color" content="#0B1120">
+  <title>Dysrupción — El futuro tech se construye en comunidad</title>
+  <meta name="description" content="Somos Dysrupción, la comunidad tech de Yucatán. Conectamos talento, compartimos conocimiento y construimos con impacto local. Conócenos y sé parte.">
+  <meta property="og:title" content="Dysrupción — Innovación con identidad">
+  <meta property="og:description" content="Desde Yucatán, construimos el futuro tech en comunidad. Conoce quiénes somos, nuestros encuentros y cómo sumarte.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/img/brand-color.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com">
   <link rel="stylesheet" href="/css/design-system.css">
-  <style>
-    /* =============================================
-       LANDING PAGE — Poster-style hero
-       ============================================= */
-
-    /* Hero: split layout on desktop, stacked on mobile */
-    .hero {
-      min-height: 90vh;
-      display: grid;
-      grid-template-columns: 1fr;
-      align-items: center;
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 48px 24px;
-      position: relative;
-      overflow: hidden;
-      gap: 48px;
-    }
-
-    @media (min-width: 768px) {
-      .hero {
-        grid-template-columns: 1.2fr 0.8fr;
-        min-height: 85vh;
-        padding: 64px 24px;
-        gap: 64px;
-      }
-    }
-
-    .hero-bg-text {
-      position: absolute;
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: clamp(120px, 20vw, 280px);
-      font-weight: 700;
-      opacity: 0.025;
-      top: 50%;
-      right: -5%;
-      transform: translateY(-50%);
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
-      font-size: 13px;
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 20px;
-    }
-
-    .hero-title {
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: clamp(36px, 6vw, 72px);
-      font-weight: 700;
-      line-height: 1.0;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-
-    .hero-title .accent { color: var(--cyan); }
-
-    .hero-description {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.6;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin-bottom: 32px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .hero-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-visual img {
-      width: 100%;
-      max-width: 320px;
-      height: auto;
-      filter: drop-shadow(0 0 60px rgba(46, 236, 199, 0.08));
-    }
-
-    /* Only show the correct logo for the current theme */
-    .hero-visual .hero-logo-light { display: none; }
-    .hero-visual .hero-logo-dark { display: block; }
-    [data-theme="light"] .hero-visual .hero-logo-light { display: block; }
-    [data-theme="light"] .hero-visual .hero-logo-dark { display: none; }
-
-    @media (max-width: 767px) {
-      .hero-visual {
-        order: -1;
-      }
-      .hero-visual img {
-        max-width: 180px;
-      }
-      .hero {
-        text-align: center;
-      }
-      .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .hero-actions {
-        justify-content: center;
-      }
-    }
-
-    /* Manifesto section */
-    .manifesto {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 80px 24px;
-    }
-
-    .manifesto-label {
-      font-family: 'Geist Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--pink);
-      margin-bottom: 24px;
-    }
-
-    .manifesto p {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-
-    .manifesto p strong {
-      color: var(--cyan);
-      font-weight: 600;
-    }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 64px 24px;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 32px 24px;
-      text-align: center;
-      transition: border-color 200ms ease-out;
-    }
-
-    .stat-card:hover {
-      border-color: var(--cyan);
-    }
-
-    .stat-value {
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: 48px;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.1;
-    }
-
-    .stat-label {
-      font-family: 'Geist Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      margin-top: 8px;
-    }
-
-    .tracks {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 64px 24px;
-    }
-
-    .tracks-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .tracks-header h2 {
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .tracks-header p {
-      font-family: 'Geist Mono', monospace;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .tracks-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .track-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 32px 24px;
-      transition: border-color 200ms ease-out, transform 200ms ease-out;
-    }
-
-    .track-card:hover {
-      border-color: var(--cyan);
-      transform: translateY(-2px);
-    }
-
-    .track-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
-    }
-
-    .track-card h3 {
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .track-card p {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-
-    .track-tag {
-      display: inline-block;
-      font-family: 'Geist Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      margin-top: 16px;
-    }
-
-    .track-tag--cyan {
-      background: rgba(46, 236, 199, 0.15);
-      color: var(--cyan);
-    }
-
-    .track-tag--pink {
-      background: rgba(255, 22, 84, 0.15);
-      color: var(--pink);
-    }
-
-    .track-tag--yellow {
-      background: rgba(255, 209, 0, 0.15);
-      color: var(--yellow);
-    }
-
-    .cta-section {
-      text-align: center;
-      padding: 96px 24px;
-      position: relative;
-    }
-
-    .cta-section h2 {
-      font-family: 'Clash Grotesk', sans-serif;
-      font-size: clamp(28px, 5vw, 48px);
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .cta-section p {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 18px;
-      color: var(--text-muted);
-      margin-bottom: 32px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .separator {
-      width: 64px;
-      height: 2px;
-      margin: 0 auto 64px;
-      background: linear-gradient(90deg, var(--pink), var(--cyan), var(--yellow));
-      border: none;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 14px 32px;
-      background: var(--pink);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 100ms ease-out, opacity 150ms ease-out;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      opacity: 0.9;
-    }
-
-    .btn-secondary {
-      display: inline-block;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 14px 32px;
-      background: transparent;
-      color: var(--cyan);
-      border: 1px solid var(--cyan);
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 150ms ease-out;
-    }
-
-    .btn-secondary:hover {
-      background: var(--cyan);
-      color: var(--bg);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero {
-        min-height: 60vh;
-        padding: 48px 16px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 48px 16px;
-      }
-
-      .tracks-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/community.css">
 </head>
-<body>
+<body class="community-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <div id="site-nav"></div>
-
-  <main>
-    <!-- Hero -->
-    <section class="hero" aria-label="Introducción">
-      <div class="hero-bg-text" aria-hidden="true">DYSRUPCION</div>
-
-      <div class="hero-content">
-        <p class="hero-eyebrow">Yucatán Tech Community</p>
-        <h1 class="hero-title">Lo estamos<br><span class="accent">haciendo</span>.</h1>
-        <p class="hero-description">
-          Comunidad tech de Yucatán ocupada en generar prosperidad a través del uso y la creación de tecnología.
-          Una plaza pública donde se construye, se propone, se actúa.
-        </p>
-        <div class="hero-actions">
-          <a href="/registro" class="btn-primary">Únete a Dysrupción</a>
-          <a href="#manifiesto" class="btn-secondary">Lee el Manifiesto</a>
+  <main id="contenido">
+    <section class="landing-hero page-width" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Yucatán tech community · Desde 2022</p>
+        <h1 id="hero-title">El futuro tech<br>se construye<br><span>en comunidad.</span></h1>
+        <p class="hero-intro">El talento está aquí. Las ideas también. Somos el punto de encuentro de quienes quieren hacer que las cosas pasen en Yucatán.</p>
+        <div class="landing-actions">
+          <a class="btn btn-primary" href="/registro">Quiero ser parte <span aria-hidden="true">↗</span></a>
+          <a class="hero-text-link" href="#quienes-somos">Conoce la comunidad <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hero-footnote">Tecnología. Colaboración. Impacto local.</p>
+      </div>
+      <div class="community-poster" aria-label="Dysrupción: innovación con identidad, hecho en Yucatán">
+        <div class="poster-top"><span>20—22 / EST.</span><span>YUC, MX <span aria-hidden="true">↗</span></span></div>
+        <div class="poster-art">
+          <img class="poster-logo-dark" src="/img/brand-color.png" alt="Dysrupción Tech" width="561" height="640" fetchpriority="high">
+          <img class="poster-logo-light" src="/img/brand-color-light.png" alt="Dysrupción Tech" width="561" height="640" fetchpriority="high">
+        </div>
+        <div class="poster-bottom"><span>INNOVACIÓN<br>CON IDENTIDAD.</span><span class="poster-cross" aria-hidden="true">✳</span></div>
+        <span class="poster-note">EL SIGUIENTE PASO LO DAMOS JUNTXS.</span>
+      </div>
+    </section>
+    <div class="community-ribbon" aria-label="Conectar, compartir y construir desde Yucatán">
+      <div class="page-width ribbon-inner"><span>CONECTAR</span><span aria-hidden="true">✳</span><span>COMPARTIR</span><span aria-hidden="true">✳</span><span>CONSTRUIR</span><span aria-hidden="true">✳</span><span class="ribbon-location">DESDE YUCATÁN, PARA EL MUNDO <span aria-hidden="true">↗</span></span></div>
+    </div>
+    <section class="landing-section page-width about-section" id="quienes-somos" aria-labelledby="about-title">
+      <div class="section-heading"><p class="eyebrow">01 / Quiénes somos</p><span class="section-aside">Personas primero. Tecnología después.</span></div>
+      <div class="about-grid">
+        <h2 id="about-title">Talento individual.<br><span class="text-cyan">Fuerza colectiva.</span></h2>
+        <div class="about-copy"><p>Nacimos en 2022 con cuatro personas y una pregunta: ¿cómo hacemos que el crecimiento de la tecnología también se convierta en oportunidades para Yucatán?</p><p>Hoy nos reunimos para compartir lo que sabemos, conectar ideas y crear proyectos que aporten a nuestro entorno. Aquí caben quienes desarrollan, diseñan, emprenden, estudian o apenas empiezan a explorar la tecnología.</p><a class="inline-link" href="#manifiesto">Lo que nos mueve <span aria-hidden="true">↘</span></a></div>
+      </div>
+      <div class="community-facts"><div><strong>2022</strong><span>El inicio de esta historia</span></div><div><strong>En red</strong><span>Aprender, conectar y construir</span></div><div><strong>Yucatán</strong><span>Nuestra raíz. Nuestro punto de partida.</span></div></div>
+    </section>
+    <section class="action-section" aria-labelledby="action-title">
+      <div class="page-width landing-section">
+        <div class="section-heading"><p class="eyebrow">02 / Lo que hacemos</p><span class="section-aside">Del «estaría bueno» al «lo estamos haciendo».</span></div>
+        <h2 id="action-title">Hay muchas formas<br>de mover las cosas.</h2>
+        <div class="action-grid">
+          <article class="action-card"><span class="action-symbol text-cyan" aria-hidden="true">↗</span><span class="eyebrow">01 — Conectamos</span><h3>Encuentros que<br>abren conversaciones.</h3><p>Meetups, charlas y espacios para vernos las caras, intercambiar ideas y encontrar con quién construir.</p><a href="#eventos" class="inline-link">Ver encuentros <span aria-hidden="true">↗</span></a></article>
+          <article class="action-card"><span class="action-symbol text-yellow" aria-hidden="true">✳</span><span class="eyebrow">02 — Compartimos</span><h3>Lo que sabes puede<br>abrirle camino a alguien.</h3><p>Educación y mentoría para compartir experiencia, aprender en colectivo y acercar oportunidades al talento local.</p><a href="/registro" class="inline-link">Quiero aportar <span aria-hidden="true">↗</span></a></article>
+          <article class="action-card"><span class="action-symbol text-pink" aria-hidden="true">⌘</span><span class="eyebrow">03 — Construimos</span><h3>Ideas que salen<br>de la conversación.</h3><p>Emprendimiento, impacto local y puentes con otras comunidades. Tecnología para resolver problemas de aquí.</p><a href="/iniciativas" class="inline-link">Explorar iniciativas <span aria-hidden="true">↗</span></a></article>
         </div>
       </div>
-
-      <div class="hero-visual">
-        <img src="/img/logo-tricolor.png" alt="Dysrupción" class="hero-logo-dark">
-        <img src="/img/logo-color.png" alt="Dysrupción" class="hero-logo-light">
-      </div>
     </section>
-
-    <!-- Manifesto -->
-    <section class="manifesto" id="manifiesto" aria-label="Manifiesto">
-      <hr class="separator">
-      <p class="manifesto-label">Manifiesto</p>
-
-      <p>
-        Somos una comunidad ocupada en generar prosperidad para Yucatán a través del uso y la creación de tecnología.
-      </p>
-      <p>
-        Habitamos una plaza pública donde participar no es opcional: se construye, se propone, se actúa.
-      </p>
-      <p>
-        Compartimos acceso, conocimiento y recursos porque sabemos que el crecimiento real ocurre cuando se invierte tiempo, capital y experiencia.
-      </p>
-      <p>
-        Creemos en el talento individual, pero en la fuerza del colectivo para potenciarlo.
-      </p>
-      <p>
-        No hacemos proselitismo ni tenemos agendas ocultas. No promovemos posturas políticas ni religiosas.
-      </p>
-      <p>
-        Participamos con nombre y apellido. Con responsabilidad sobre lo que decimos.
-      </p>
-      <p>
-        Fomentamos el debate abierto, respetuoso y enriquecedor, guiado por principios claros y reglas compartidas.
-      </p>
-      <p>
-        No estamos esperando que Yucatán se convierta en algo. <strong>Lo estamos haciendo.</strong>
-      </p>
-
+    <section class="landing-section page-width" id="eventos" aria-labelledby="events-title">
+      <div class="section-heading"><p class="eyebrow">03 / Nos vemos pronto</p><span class="section-aside">Las mejores conexiones empiezan con un hola.</span></div>
+      <div class="events-heading"><h2 id="events-title">Fuera del chat.<br>Dentro de la comunidad.</h2><a class="btn btn-secondary" href="/eventos">Toda la agenda <span aria-hidden="true">↗</span></a></div>
+      <div id="landing-events" class="landing-events" aria-live="polite" aria-busy="true"><p class="events-loading">Cargando próximos encuentros…</p></div>
+      <noscript><p>Consulta los próximos encuentros en la <a href="/eventos">agenda de eventos</a>.</p></noscript>
+      <div class="event-invitation"><span class="text-yellow" aria-hidden="true">✳</span><p>¿Tienes una charla, un taller o una idea para reunirnos?</p><a class="inline-link" href="/eventos#publicar">Propón un encuentro <span aria-hidden="true">↗</span></a></div>
     </section>
-
-    <!-- Stats -->
-    <section class="stats" aria-label="Estadísticas de la comunidad">
-      <div class="stat-card">
-        <div class="stat-value">387</div>
-        <div class="stat-label">Miembros</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">12</div>
-        <div class="stat-label">Iniciativas</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">4</div>
-        <div class="stat-label">Tracks Activos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">3</div>
-        <div class="stat-label">Eventos Este Mes</div>
-      </div>
+    <section class="manifesto-section" id="manifiesto" aria-labelledby="manifesto-title">
+      <div class="page-width manifesto-inner"><p class="eyebrow">Nuestro manifiesto</p><h2 id="manifesto-title">No estamos esperando<br>que Yucatán se convierta en algo.<br><span>Lo estamos haciendo.</span></h2><div class="manifesto-notes"><p>Compartimos conocimiento, acceso y recursos. Participamos con nombre y apellido. Creemos en el debate abierto, el respeto y la fuerza de construir en colectivo.</p><a class="inline-link" href="/codigo-de-conducta">Así nos cuidamos <span aria-hidden="true">↗</span></a></div></div>
     </section>
-
-    <!-- Tracks -->
-    <section class="tracks" aria-label="Tracks de iniciativa">
-      <div class="tracks-header">
-        <h2>Tracks de Iniciativa</h2>
-        <p>5 líneas de acción para construir ecosistema</p>
-      </div>
-      <div class="tracks-grid">
-        <article class="track-card">
-          <div class="track-icon" aria-hidden="true">&#9733;</div>
-          <h3>Eventos</h3>
-          <p>Meetups, hackatones, conferencias y espacios de encuentro. Donde la comunidad se ve la cara y comparte conocimiento en vivo.</p>
-          <span class="track-tag track-tag--cyan">eventos</span>
-        </article>
-        <article class="track-card">
-          <div class="track-icon" aria-hidden="true">&#9670;</div>
-          <h3>Educación</h3>
-          <p>Talleres, mentoría y recursos para cerrar la brecha de skills. Enfoque en talento local que no tiene acceso a bootcamps caros.</p>
-          <span class="track-tag track-tag--cyan">educacion</span>
-        </article>
-        <article class="track-card">
-          <div class="track-icon" aria-hidden="true">&#9650;</div>
-          <h3>Emprendimiento</h3>
-          <p>Apoyo a startups y proyectos tech nacidos en Yucatán. Conexiones, feedback, demo days y acceso a capital.</p>
-          <span class="track-tag track-tag--pink">emprendimiento</span>
-        </article>
-        <article class="track-card">
-          <div class="track-icon" aria-hidden="true">&#9679;</div>
-          <h3>Impacto Local</h3>
-          <p>Tecnología al servicio de problemas reales de Yucatán. Civic tech, datos abiertos, herramientas para comunidades y negocios locales.</p>
-          <span class="track-tag track-tag--yellow">impacto local</span>
-        </article>
-        <article class="track-card">
-          <div class="track-icon" aria-hidden="true">&#9644;</div>
-          <h3>Puente</h3>
-          <p>Conexión entre el ecosistema local e internacional. Partnerships, intercambios y oportunidades que fluyen en ambas direcciones.</p>
-          <span class="track-tag track-tag--cyan">puente</span>
-        </article>
-      </div>
+    <section class="landing-section page-width join-section" aria-labelledby="join-title">
+      <div><p class="eyebrow">04 / Tu siguiente paso</p><h2 id="join-title">Tu lugar en la comunidad<br><span class="text-cyan">empieza con un hola.</span></h2><p>No necesitas tener todas las respuestas. Trae tu curiosidad, tus ideas y las ganas de compartir.</p></div>
+      <div class="join-action"><a class="btn btn-primary" href="/registro">Sé parte de Dysrupción <span aria-hidden="true">↗</span></a><span>Cuéntanos de ti. Construyamos desde ahí.</span></div>
     </section>
-
-    <!-- CTA -->
-    <section class="cta-section" aria-label="Unirse a la comunidad">
-      <hr class="separator">
-      <h2>Únete a Dysrupcion</h2>
-      <p>Somos una comunidad por invitación. Si alguien de la comunidad te refirió, empieza tu proceso aquí.</p>
-      <a href="/registro" class="btn-primary">Comenzar Registro</a>
-    </section>
+    <section class="page-width faq-section" aria-labelledby="faq-title"><p class="eyebrow">Antes de sumarte</p><h2 id="faq-title">Quizá te lo estás preguntando.</h2><div class="faq-list">
+      <details><summary>¿Tengo que trabajar en tecnología para participar?</summary><p>No. Puedes estar estudiando, aprendiendo por tu cuenta o explorando un cambio de rumbo. Lo que nos une es la curiosidad por la tecnología y las ganas de aportar.</p></details>
+      <details><summary>¿Necesito ser de Yucatán?</summary><p>Nos mueve el impacto en Yucatán, y recibimos a personas de aquí, de otros estados y de otros países que quieran construir con la comunidad local.</p></details>
+      <details><summary>¿Qué pasa después de enviar mi solicitud?</summary><p>El equipo revisa tu solicitud y te contacta con los siguientes pasos. Enviar el formulario no te agrega automáticamente al grupo ni al directorio.</p></details>
+      <details><summary>¿Cómo puedo aportar?</summary><p>Comparte conocimiento, propón un encuentro, acompaña a alguien que está aprendiendo o súmate a una iniciativa. En el formulario puedes contarnos qué te interesa hacer.</p></details>
+    </div></section>
   </main>
-
   <div id="site-footer"></div>
   <script src="/js/layout.js"></script>
+  <script src="/js/landing.js"></script>
 </body>
 </html>

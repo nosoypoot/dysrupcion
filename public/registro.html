@@ -3,138 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Únete a Dysrupcion</title>
+  <meta name="theme-color" content="#0B1120">
+  <meta name="description" content="Sé parte de Dysrupción, la comunidad tech de Yucatán. Cuéntanos de ti, comparte lo que te mueve y solicita tu ingreso.">
+  <title>Sé parte — Dysrupción</title>
+  <link rel="icon" href="/img/brand-color.png" type="image/png">
   <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="stylesheet" href="/css/community.css">
 </head>
-<body>
+<body class="community-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <div id="site-nav"></div>
-
-  <main class="form-page">
-    <section class="form-section">
-      <div class="form-card">
-        <div class="form-header">
-          <h1 class="display-md">Únete a Dysrupcion</h1>
-          <p class="body-lg text-muted">Completa el formulario para solicitar tu ingreso a la comunidad.</p>
-        </div>
-
-        <form id="register-form" novalidate>
-          <div class="input-group">
-            <label class="input-label" for="nombre">Nombre completo <span class="required">*</span></label>
-            <input class="input" type="text" id="nombre" name="nombre" required autocomplete="name">
+  <main id="contenido" class="page-width registration-layout">
+    <section class="registration-intro" aria-labelledby="join-title">
+      <p class="eyebrow">Sé parte / Dysrupción</p>
+      <h1 id="join-title">Hay un lugar<br>para ti.<br><span>Construyámoslo.</span></h1>
+      <p>Nos une la curiosidad por la tecnología y las ganas de hacer algo con ella. Cuéntanos quién eres y qué te gustaría compartir con la comunidad.</p>
+      <ol class="join-steps">
+        <li><span aria-hidden="true">01</span><div><h2>Cuéntanos de ti</h2><p>Tu experiencia, tus intereses y lo que te trae por aquí.</p></div></li>
+        <li><span aria-hidden="true">02</span><div><h2>Conozcámonos</h2><p>El equipo revisa tu solicitud y te contacta con los siguientes pasos.</p></div></li>
+        <li><span aria-hidden="true">03</span><div><h2>Encuentra cómo aportar</h2><p>Una conversación, un encuentro o un proyecto pueden ser el inicio.</p></div></li>
+      </ol>
+      <p class="registration-note">Participamos con respeto, nombre y apellido. <a href="/codigo-de-conducta">Conoce nuestro código de conducta ↗</a></p>
+    </section>
+    <section class="registration-card" aria-labelledby="form-title">
+      <h2 id="form-title">Empecemos por conocerte.</h2>
+      <p>Los campos con <span class="required">*</span> son obligatorios.</p>
+      <form id="register-form" novalidate>
+        <fieldset><legend>01 / Sobre ti</legend>
+          <div class="input-group"><label class="input-label" for="nombre">Nombre completo <span class="required">*</span></label><input class="input" type="text" id="nombre" name="nombre" required maxlength="160" autocomplete="name" placeholder="Tu nombre y apellido"></div>
+          <div class="form-row">
+            <div class="input-group"><label class="input-label" for="email">Correo electrónico <span class="required">*</span></label><input class="input" type="email" id="email" name="email" required maxlength="254" autocomplete="email" placeholder="hola@ejemplo.com"></div>
+            <div class="input-group"><label class="input-label" for="whatsapp">WhatsApp <span class="required">*</span></label><input class="input" type="tel" id="whatsapp" name="whatsapp" required maxlength="30" autocomplete="tel" pattern="[+0-9() .\-]{7,30}" placeholder="+52 999 123 4567" aria-describedby="whatsapp-hint"></div>
           </div>
-
-          <div class="input-group">
-            <label class="input-label" for="email">Email <span class="required">*</span></label>
-            <input class="input" type="email" id="email" name="email" required autocomplete="email">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="whatsapp">WhatsApp <span class="required">*</span></label>
-            <input class="input" type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel" placeholder="+52 999 123 4567">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="linkedin">LinkedIn <span class="required">*</span></label>
-            <input class="input" type="url" id="linkedin" name="linkedin" required placeholder="https://linkedin.com/in/tu-perfil">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="github">GitHub <span class="text-muted">(opcional)</span></label>
-            <input class="input" type="url" id="github" name="github" placeholder="https://github.com/tu-usuario">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="origen">Origen</label>
-            <select class="input" id="origen" name="origen">
-              <option value="">Selecciona tu origen</option>
-              <option value="local">Local (Yucatan)</option>
-              <option value="nacional">Nacional (otro estado)</option>
-              <option value="extranjero">Extranjero</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="expertise">Expertise / Rol</label>
-            <input class="input" type="text" id="expertise" name="expertise" placeholder="ej. Frontend Developer, Data Scientist...">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="referred_by">¿Alguien te recomendó sumarte a nuestra comunidad? <span class="text-muted">(opcional)</span></label>
-            <input class="input" type="text" id="referred_by" name="referred_by" placeholder="Escribe su nombre">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label" for="motivacion">¿Por qué quieres pertenecer a la comunidad de Dysrupción? <span class="required">*</span></label>
-            <textarea class="input" id="motivacion" name="motivacion" rows="5" required placeholder="Cuéntanos en tus palabras qué te trae aquí y qué esperas aportar."></textarea>
-          </div>
-
-          <div class="input-group checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" id="contrato" name="contrato" required>
-              <span>Acepto el <a href="/codigo-de-conducta" class="link-pink">código de conducta</a></span>
-            </label>
-          </div>
-
-          <div class="input-group checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" id="directorio" name="directorio">
-              <span>Acepto aparecer en el directorio público</span>
-            </label>
-          </div>
-
-          <div id="form-message" class="form-message" hidden></div>
-
-          <button type="submit" class="btn-primary btn-full btn-lg">Solicitar mi ingreso →</button>
-
-          <p class="form-footer text-muted body-sm">Al registrarte aceptas el código de conducta de Dysrupción.</p>
-        </form>
+          <p class="input-hint" id="whatsapp-hint" style="margin-top:-12px;margin-bottom:20px">Incluye tu código de país para que podamos contactarte.</p>
+          <div class="input-group"><label class="input-label" for="linkedin">LinkedIn <span class="required">*</span></label><input class="input" type="url" id="linkedin" name="linkedin" required maxlength="500" placeholder="https://linkedin.com/in/tu-perfil"></div>
+          <div class="input-group"><label class="input-label" for="github">GitHub <span class="optional">(opcional)</span></label><input class="input" type="url" id="github" name="github" maxlength="500" placeholder="https://github.com/tu-usuario"></div>
+        </fieldset>
+        <fieldset><legend>02 / Tu conexión con la comunidad</legend>
+          <div class="input-group"><label class="input-label" for="origen">¿De dónde eres? <span class="optional">(opcional)</span></label><select class="input" id="origen" name="origen"><option value="">Cuéntanos de dónde vienes</option><option value="local">De Yucatán</option><option value="nacional">De otro estado de México</option><option value="extranjero">De otro país</option></select></div>
+          <div class="input-group"><label class="input-label" for="expertise">¿Qué haces o qué estás aprendiendo? <span class="optional">(opcional)</span></label><input class="input" type="text" id="expertise" name="expertise" maxlength="200" placeholder="Desarrollo, diseño, datos, emprendimiento…"></div>
+          <div class="input-group"><label class="input-label" for="referred_by">¿Alguien te invitó? <span class="optional">(opcional)</span></label><input class="input" type="text" id="referred_by" name="referred_by" maxlength="160" placeholder="El nombre de quien te recomendó sumarte"></div>
+          <div class="input-group"><label class="input-label" for="motivacion">¿Qué te trae a Dysrupción? <span class="required">*</span></label><textarea class="input" id="motivacion" name="motivacion" rows="4" required maxlength="3000" placeholder="Qué te gustaría aprender, compartir o construir. Te leemos."></textarea></div>
+        </fieldset>
+        <label class="consent-row"><input type="checkbox" id="contrato" name="contrato" required><span>He leído y acepto el <a href="/codigo-de-conducta" target="_blank" rel="noopener noreferrer">código de conducta</a>. <span class="required">*</span></span></label>
+        <label class="consent-row"><input type="checkbox" id="directorio" name="directorio"><span>Si mi solicitud es aprobada, acepto aparecer en el directorio público de la comunidad. <span class="optional">(opcional)</span></span></label>
+        <div id="form-message" class="form-message" role="alert" tabindex="-1" hidden></div>
+        <button type="submit" class="btn btn-primary">Enviar mi solicitud <span aria-hidden="true">↗</span></button>
+        <p class="form-footer">Usamos tus datos para revisar tu solicitud y contactarte.<br>Tu correo y WhatsApp no se muestran en el directorio.</p>
+      </form>
+      <div id="registration-success" class="registration-success" role="status" tabindex="-1" hidden>
+        <span class="success-symbol" aria-hidden="true">↗</span><h2>Ya diste el primer paso.</h2><p>Recibimos tu solicitud. El equipo la revisará y te contactará con los siguientes pasos. Gracias por querer construir con Dysrupción.</p><a class="btn btn-secondary" href="/">Volver a la comunidad <span aria-hidden="true">↗</span></a>
       </div>
+      <noscript><p>Necesitas activar JavaScript para enviar la solicitud. También puedes escribirnos a <a href="mailto:dysrupcion@gmail.com">dysrupcion@gmail.com</a>.</p></noscript>
     </section>
   </main>
-
   <div id="site-footer"></div>
-
   <script src="/js/layout.js"></script>
-  <script src="/js/forms.js"></script>
-  <script>
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const message = document.getElementById('form-message');
-
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      const data = Object.fromEntries(new FormData(form));
-      data.contrato = form.contrato.checked;
-      data.directorio = form.directorio.checked;
-
-      try {
-        const res = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-
-        if (res.ok) {
-          message.textContent = 'Solicitud enviada con exito. Te contactaremos pronto.';
-          message.className = 'form-message success';
-          message.hidden = false;
-          form.reset();
-        } else {
-          const err = await res.json().catch(() => ({}));
-          message.textContent = err.message || 'Error al enviar la solicitud. Intenta de nuevo.';
-          message.className = 'form-message error';
-          message.hidden = false;
-        }
-      } catch {
-        message.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
-        message.className = 'form-message error';
-        message.hidden = false;
-      }
-    });
-  </script>
+  <script src="/js/register.js"></script>
 </body>
 </html>
