@@ -1,28 +1,7 @@
 import type { Env } from "../index";
 import { sendEmail } from "../lib/email";
 import { adminNewApplication } from "../lib/email-templates";
-
-interface RegisterBody {
-  nombre: string;
-  email: string;
-  whatsapp: string;
-  linkedin: string;
-  motivacion: string;
-  github?: string;
-  origen?: string;
-  expertise?: string;
-  referred_by?: string;
-  contrato?: boolean;
-  directorio?: boolean;
-}
-
-const REQUIRED_FIELDS: (keyof RegisterBody)[] = [
-  "nombre",
-  "email",
-  "whatsapp",
-  "linkedin",
-  "motivacion",
-];
+import { validateRegistration } from "../lib/registration";
 
 export async function handleRegister(
   request: Request,
@@ -32,28 +11,14 @@ export async function handleRegister(
   if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
-
-  let body: RegisterBody;
-  try {
-    body = (await request.json()) as RegisterBody;
-  } catch {
-    return Response.json({ error: "JSON inválido" }, { status: 400 });
+  let input: unknown;
+  try { input = await request.json(); }
+  catch { return Response.json({ error: "JSON inválido" }, { status: 400 }); }
+  const validation = validateRegistration(input);
+  if (!validation.ok) {
+    return Response.json({ error: validation.error }, { status: 400 });
   }
-
-  const missing = REQUIRED_FIELDS.filter((f) => !body[f]);
-  if (missing.length > 0) {
-    return Response.json(
-      { error: `Faltan campos requeridos: ${missing.join(", ")}` },
-      { status: 400 },
-    );
-  }
-
-  if (!body.contrato) {
-    return Response.json(
-      { error: "Debes aceptar el código de conducta para continuar" },
-      { status: 400 },
-    );
-  }
+  const body = validation.data;
 
   try {
     const result = await env.DB.prepare(

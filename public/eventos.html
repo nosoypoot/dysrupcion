@@ -27,7 +27,7 @@
     </section>
 
     <!-- Agregar Evento Section -->
-    <section class="form-section">
+    <section class="form-section" id="publicar" style="scroll-margin-top: 100px">
       <div class="form-card">
         <div class="form-header">
           <h2 class="display-sm">Agregar Evento</h2>
@@ -175,7 +175,8 @@
         });
 
         if (res.ok) {
-          message.textContent = 'Evento publicado con exito.';
+          const result = await res.json();
+          message.textContent = result.review ? result.message : 'Evento publicado con éxito.';
           message.className = 'form-message success';
           message.hidden = false;
           form.reset();

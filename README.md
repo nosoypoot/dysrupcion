@@ -18,9 +18,9 @@ Dysrupción nació en 2022 con 4 personas preguntándose por qué la tecnología
 
 | Ruta | Descripción |
 |------|-------------|
-| `/` | Manifiesto — la tesis de "innovación con identidad" |
+| `/` | Landing de la comunidad: quiénes somos, líneas de acción, próximos eventos, manifiesto y preguntas frecuentes |
 | `/codigo-de-conducta` | Código de conducta — pilares, 6 reglas, conflictos, contacto |
-| `/registro` | Formulario de registro para nuevos miembros |
+| `/registro` | Pestaña “Sé parte”: solicitud de ingreso, consentimiento y confirmación de envío |
 | `/proponer` | Proponer una iniciativa con beneficio local obligatorio |
 | `/directorio` | Directorio público de miembros (con consentimiento) |
 | `/iniciativas` | Board de iniciativas activas por track |
@@ -39,6 +39,31 @@ npx wrangler dev
 
 # El sitio estará en http://localhost:8787
 ```
+
+Para probar el registro en desarrollo, inicializa primero la base **local**:
+
+```bash
+npx wrangler d1 migrations apply dysrupcion-db --local
+```
+
+El formulario envía solicitudes a `/api/register`, que las guarda en D1 con estado
+`pending`. El consentimiento para aparecer en el directorio es opcional. Las
+notificaciones al equipo requieren `RESEND_API_KEY`; guardar la solicitud no
+depende del envío del correo. La landing consulta `/api/events`, muestra hasta
+tres próximos encuentros y distingue entre una agenda vacía y un error de carga.
+La agenda sigue usando los datos de ejemplo de `src/lib/mock-data.ts`; reemplázalos
+por fechas confirmadas antes de anunciar eventos reales.
+
+Comprobaciones locales:
+
+```bash
+npm run typecheck
+npm test
+```
+
+Las pruebas del registro usan SQLite en memoria (requieren una versión de Node
+con `node:sqlite`) y las migraciones del proyecto. No contactan servicios de
+producción ni envían correos.
 
 ## Estructura del proyecto
 
@@ -107,6 +132,19 @@ El sitio usa un sistema de diseño propio basado en la identidad de marca de Dys
 Documentación completa en `DESIGN.md`.
 
 ## Deploy
+
+### Revisión previa en Vercel
+
+`vercel.json` genera una copia de revisión con `npm run build:review`, publicada
+desde `dist/review`. Incluye datos de ejemplo y formularios simulados; no usa D1
+ni envía correos. Para probarla localmente: `npm run preview:review`.
+
+Consulta [la guía de revisión](docs/vercel-review.md) para conectar Vercel y revisar
+el sitio antes de autorizar el lanzamiento. La primera implementación de un
+proyecto nuevo puede tener la etiqueta Production de Vercel, pero esta
+configuración sigue siendo una simulación aislada del sitio real de Cloudflare.
+
+### Producción en Cloudflare
 
 ```bash
 # Deploy a producción

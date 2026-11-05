@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build:review",
+  "outputDirectory": "dist/review",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/:reviewPath*", "destination": "/api/review?reviewPath=:reviewPath*" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+    }
+  ]
+}

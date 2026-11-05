@@ -1,0 +1,9 @@
+.git/
+.gstack/
+.wrangler/
+node_modules/
+dist/
+docs/
+tests/
+.dev.vars
+*.log
